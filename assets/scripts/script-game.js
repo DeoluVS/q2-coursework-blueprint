@@ -96,6 +96,7 @@ function myLoop() {         //  create a loop function
 let i=0;
 
 function startMemorySequence(){
+    sequenceToMatch = []
     generateSequence();
     showButtonsPeriodically();
 }
@@ -105,19 +106,34 @@ function showButtonsPeriodically(){
     setTimeout(function() {
         i=i+1;
         if(i<5 && sequenceToMatch){
+            const current = sequenceToMatch[i - 1];
+            const prev = sequenceToMatch[i - 2];
+
+            // Track consecutive counts
+            if (current === prev) {
+                repeatCount++;
+            } else {
+                repeatCount = 1;
+            }
+
+            // Update display number on the square
+            const squareElement = document.getElementById('shape' + current);
+            if (squareElement) {
+                squareElement.innerText = repeatCount; // show 1, 2, 3, ...
+            }
             if(sequenceToMatch[i-1] === 1){
                 showButton1();
                 setTimeout(() => {hideButton1();
                 }, 2000);
-            }else if(sequenceToMatch[i] === 2){
+            }else if(sequenceToMatch[i-1] === 2){
                 showButton2();
                 setTimeout(() => {hideButton2();
                 }, 2000);
-            }else if(sequenceToMatch[i] === 3){
+            }else if(sequenceToMatch[i-1] === 3){
                 showButton3();
                 setTimeout(() => {hideButton3();
                 }, 2000);
-            }else if(sequenceToMatch[i] === 4){
+            }else if(sequenceToMatch[i-1] === 4){
                 showButton4();
                 setTimeout(() => {hideButton4();
                 }, 2000);
@@ -130,8 +146,6 @@ function showButtonsPeriodically(){
             i=0;    
         }
         document.getElementById('sequence-order').innerHTML = sequenceToMatch;
-        //document.getElementById('sequence-order').innerHTML = "";
-        
     },2000)
 }
 
