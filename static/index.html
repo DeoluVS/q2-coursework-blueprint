@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Series of games to check your reaction time and memory.">
+    <meta name="keywords" content="Games, memory, reaction time">
+    <title>Games</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../assets/styles/style.css">
+    <script src="../assets/scripts/script-game.js"></script>
+</head>
+<body>
+    <header>
+    
+    </header>
+    <main>
+        <div>
+            <h1>Game container</h1>
+            <div id="shapes">
+                <button class="square" id="shape1" onclick="hideButton1()">1</button>
+                <button class="square" id="shape2" onclick="hideButton2()">2</button>
+                <button class="square" id="shape3" onclick="hideButton3()">3</button>
+                <button class="square" id="shape4" onclick="hideButton4()">4</button>
+            </div>
+            <br>
+            <br>
+            <h1 id="sequence-order"></h1>
+            <button id="btn" onclick="showButtonsPeriodically()">Click me!!!</button>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+
+</body>
+</html>

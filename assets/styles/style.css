@@ -1,0 +1,35 @@
+#shapes{
+    display: flex;
+    flex-direction: row;
+    background-color: lightblue;
+    flex-wrap: wrap;
+    max-width: 250px;
+}
+
+.square{
+    margin: 2%;
+    background-color: black;
+    height: 100px;
+    width: 100px;
+    color: black;
+}
+
+#shape1{
+    visibility: hidden;
+    background-color: red;
+}
+
+#shape2{
+    visibility: hidden;
+    background-color: blue;
+}
+
+#shape3{
+    visibility: hidden;
+    background-color: green;
+}
+
+#shape4{
+    visibility: hidden;
+    background-color: yellow;
+}
