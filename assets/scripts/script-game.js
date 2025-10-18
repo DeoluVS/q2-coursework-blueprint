@@ -1,5 +1,10 @@
 let gameArr = [];
 let sequenceToMatch = [];
+let points = 0;
+let playerInputs = 0;
+let correctInputs = 0;
+//This boolean will turn off some functionality depending on if the sequence is being actively shown or not. 
+let shownSequence = false;
 
 //This a function that gets a random number between min and max including max and min 
 //Code gotten from the JavaScript documentation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
@@ -11,55 +16,90 @@ function getRandomIntInclusive(min, max) {
 
 //Await function used from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
 function hideButton1() {
-    let button = document.getElementById("shape1");
-    button.style.visibility = "hidden";
-    gameArr.push(1);
-    updateArr();
-    console.log("Hidden 1"); // 10
+    if(shownSequence === false){
+        let button = document.getElementById("shape1");
+        button.style.visibility = "hidden";
+        console.log('Hidden 1');
+    }else{
+        console.log('Taking points in');
+        pointCheck(1);
+        gameArr.push(1);
+        updateArr();
+    }
+    
+    console.log(gameArr);
 }
 
 function hideButton2(){
-    let button = document.getElementById("shape2");
-    button.style.visibility = "hidden";
-    gameArr.push(2);
-    updateArr();
-    console.log('Hidden 2');
+    if(shownSequence === false){
+        let button = document.getElementById("shape2");
+        button.style.visibility = "hidden";
+        console.log('Hidden 2');
+    }else{
+        console.log('Taking points in');
+        pointCheck(2);
+        gameArr.push(2);
+        updateArr();
+    }
+    
+    console.log(gameArr);
 }
 function hideButton3(){
-    let button = document.getElementById("shape3");
-    button.style.visibility = "hidden";
-    gameArr.push(3);
-    updateArr();
-    console.log('Hidden 3');
+    if(shownSequence === false){
+        let button = document.getElementById("shape3");
+        button.style.visibility = "hidden";
+        console.log('Hidden 3');
+    }else{
+        console.log('Taking points in');
+        pointCheck(3);
+        gameArr.push(3);
+        updateArr();
+    }
+    
+    console.log(gameArr);
 }
 function hideButton4(){
-    let button = document.getElementById("shape4");
-    button.style.visibility = "hidden";
-    gameArr.push(4);
-    updateArr();
-    console.log('Hidden 4');
+    if(shownSequence === false){
+        let button = document.getElementById("shape4");
+        button.style.visibility = "hidden";
+        console.log('Hidden 4');
+    }else{
+        console.log('Taking points in');
+        pointCheck(4);
+        gameArr.push(4);
+        updateArr();
+    }
+    
+    console.log(gameArr);
 }
 
 function showButton1(){
     let button = document.getElementById("shape1");
     button.style.visibility = "visible";
-    console.log("Shown 1")
+    console.log("Shown 1");
 }
 
 function showButton2(){
     let button = document.getElementById("shape2");
     button.style.visibility = "visible";
-    console.log("Shown 2")
+    console.log("Shown 2");
 }
 function showButton3(){
     let button = document.getElementById("shape3");
     button.style.visibility = "visible";
-    console.log("Shown 3")
+    console.log("Shown 3");
 }
 function showButton4(){
     let button = document.getElementById("shape4");
     button.style.visibility = "visible";
-    console.log("Shown 4")
+    console.log("Shown 4");
+}
+
+function hideButtons(){
+    hideButton1();
+    hideButton2();
+    hideButton3();
+    hideButton4();
 }
 
 function showButton(){
@@ -70,8 +110,13 @@ function showButton(){
 }
 
 function updateArr(){
-    document.getElementById("sequence-order").innerHTML = gameArr;
-    console.log(sequenceToMatch);
+    if (shownSequence){
+        document.getElementById("sequence-order").innerHTML = gameArr;
+    }else{
+        document.getElementById('check-array').innerHTML = sequenceToMatch;
+    }
+    
+    //console.log("Sequ",sequenceToMatch);
 }
 
 function generateSequence(){
@@ -96,13 +141,15 @@ function myLoop() {         //  create a loop function
 let i=0;
 
 function startMemorySequence(){
-    sequenceToMatch = []
+    sequenceToMatch = [];
+    gameArr = [];
+    shownSequence = false;
+    hideButtons();
     generateSequence();
     showButtonsPeriodically();
 }
 
 function showButtonsPeriodically(){
-    
     setTimeout(function() {
         i=i+1;
         if(i<5 && sequenceToMatch){
@@ -141,14 +188,67 @@ function showButtonsPeriodically(){
                 console.log("Something is wrong");
             }
             showButtonsPeriodically();
-        }else{
-            console.log('End')
+        }else if(i>=5 && sequenceToMatch){
+            showButton();
+            shownSequence = true;
             i=0;    
         }
         document.getElementById('sequence-order').innerHTML = sequenceToMatch;
+
     },2000)
 }
 
+function pointCheck(squareX){
+    console.log('Function activated');
+    let curSquare = sequenceToMatch.shift();
+    if(squareX === curSquare && curSquare){
+        console.log("Correct");
+        points = points + 100;
+        playerInputs+=1;
+        correctInputs+=1;
+        if(playerInputs === 4){
+            console.log("Sequence over");
+            changeBackgroundColor(correctInputs);
+            setTimeout(() => {changeBackgroundColor(20);
+                }, 500);
+            correctInputs = 0;
+        }
+    }else if (squareX !== curSquare && curSquare){
+        console.log("Wrong");
+        points = points - 50;
+        playerInputs+=1;
+        console.log('Number of inputs: ', playerInputs);
+        if(playerInputs === 4){
+            console.log("Sequence over");
+            changeBackgroundColor(correctInputs);
+            setTimeout(() => {changeBackgroundColor(20);
+                }, 500);
+            correctInputs = 0;
+        }
+    }else{
+        console.log("Empty array or something went wrong");
+    }
+}
+
+function changeBackgroundColor(levelOfAccuracy){
+    if(levelOfAccuracy && typeof levelOfAccuracy == 'number'){
+        if(levelOfAccuracy === 4){
+            document.body.style.backgroundColor = '#2bd42f'
+        }else if(levelOfAccuracy === 3){
+            document.body.style.backgroundColor = '#d5e41b';
+        }else if(levelOfAccuracy === 2){
+            document.body.style.backgroundColor = '#f1990e';
+        }else if(levelOfAccuracy === 1){
+            document.body.style.backgroundColor = '#ff6000';
+        }else if(levelOfAccuracy === 0){
+            document.body.style.backgroundColor = '#ff1300';
+        }else if(levelOfAccuracy === 20){
+            document.body.style.backgroundColor = 'white';
+        }else{
+            console.log('No colours left');
+        } 
+    }
+}
 
 /*
 function showButtonsPeriodically(){
