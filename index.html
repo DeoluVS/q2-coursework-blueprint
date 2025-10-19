@@ -12,38 +12,54 @@
     <script src="assets/scripts/script-game.js"></script>
 </head>
 <body>
-    <header>
-    
-    </header>
+    <div class="container"> 
+        <header class="d-flex flex-column justify-content-center align-items-center py-3 mb-4 border-bottom"> 
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"> 
+                <span class="fs-4">
+                    Memory Bank
+                </span> 
+            </a> 
+            <ul class="nav nav-pills"> 
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" aria-current="page">
+                        Home
+                    </a>
+                </li> 
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Games
+                    </a>
+                </li> 
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        About
+                    </a>
+                </li>  
+            </ul> 
+        </header> 
+    </div>
     <main>
-        <div>
-            <h1>Game container</h1>
-            <div class="game-box">
-                <div id="shapes">
-                    <button class="square" id="shape1" onclick="hideButton1()">
-                        <h1 id="square-label1">1</h1>
-                    </button>
-                    <button class="square" id="shape2" onclick="hideButton2()">
-                        <h1 id="square-label2">2</h1>
-                    </button>
-                    <button class="square" id="shape3" onclick="hideButton3()">
-                        <h1 id="square-label3">3</h1>
-                    </button>
-                    <button class="square" id="shape4" onclick="hideButton4()">
-                        <h1 id="square-label4">4</h1>
-                    </button>
-                </div>
-            </div>
-            <br>
-            <br>
-            <h1 id="sequence-order"></h1>
-            <h1 id="check-array"></h1>
-            <button id="btn" onclick="startMemorySequence()">Click me!!!</button>
+        <div class="px-4 py-5 my-5 text-center"> 
+            <img class="d-block mx-auto mb-4" src="assets/images/icons8-brain-100.png" alt="" width="100" height="100">
+            <h1 class="display-5 fw-bold text-body-emphasis">
+                Memory Bank    
+            </h1> 
+            <div class="col-lg-6 mx-auto"> 
+                <p class="lead mb-4">
+                    Play a series of sequences ranging in difficulty, with more and more items to remember as you progress. Are you ready for your mind to be stretched?
+                </p> 
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <button type="button" class="btn btn-primary btn-lg px-4 gap-3">
+                        Games
+                    </button> 
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">
+                        About
+                    </button> 
+                </div> 
+            </div> 
         </div>
     </main>
     <footer>
 
     </footer>
-
 </body>
-</html>

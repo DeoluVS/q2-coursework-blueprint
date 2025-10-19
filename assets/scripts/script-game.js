@@ -138,8 +138,6 @@ function updateArr(){
     }else{
         document.getElementById('check-array').innerHTML = sequenceToMatch;
     }
-    
-    //console.log("Sequ",sequenceToMatch);
 }
 
 //This randomly generates the sequence and adds it to the array
@@ -332,36 +330,3 @@ function changeBackgroundColor(levelOfAccuracy){
         console.log('Invalid levelOfAccuracy: ', levelOfAccuracy);
     }
 }
-
-/*
-function showButtonsPeriodically(){
-    generateSequence();
-    for (let i=0; i<4; i++){
-        if(sequenceToMatch){
-            if(sequenceToMatch[i] === 1){
-                showButton1();
-                setTimeout(() => {hideButton1();
-                }, 2000);
-            }else if(sequenceToMatch[i] === 2){
-                showButton2();
-                setTimeout(() => {hideButton2();
-                }, 2000);
-            }else if(sequenceToMatch[i] === 3){
-                showButton3();
-                setTimeout(() => {hideButton3();
-                }, 2000);
-            }else if(sequenceToMatch[i] === 4){
-                showButton4();
-                setTimeout(() => {hideButton4();
-                }, 2000);
-            }else{
-                console.log("Something is wrong");
-            }
-        }else{
-            console.log("Empty Array")
-        }
-    }
-    sequenceToMatch = [];
-    document.getElementById('sequence-order').innerHTML = "";
-}
-*/
