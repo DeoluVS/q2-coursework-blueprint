@@ -6,6 +6,7 @@ let playerInputs = 0;
 let correctInputs = 0;
 let maxInputs = 4;
 let sequencePoints = 0;
+const lastRound = 7;
 //This boolean will turn off some functionality depending on if the sequence is being actively shown or not. 
 let shownSequence = false;
 
@@ -143,7 +144,7 @@ function updateArr(){
 
 //This randomly generates the sequence and adds it to the array
 function generateSequence(){
-    for (let i=0; i<4;i++){
+    for (let i=0; i<maxInputs;i++){
         sequenceToMatch.push(getRandomIntInclusive(1,4));
     }
     console.log(sequenceToMatch);
@@ -171,10 +172,14 @@ function startMemorySequence(){
     for (const t of activeTimeouts) clearTimeout(t);
     activeTimeouts = [];
     shownSequence = false;
-    hideButtons();
-    generateSequence();
-    showButtonsPeriodically();
-    
+    if(maxInputs <= lastRound){
+        hideButtons();
+        generateSequence();
+        showButtonsPeriodically();
+    }else{
+        console.log("DONE");
+    }
+        
 }
 
 //This is the main function that presents the sequence to the user
@@ -185,7 +190,7 @@ function showButtonsPeriodically(){
     setTimeout(function() {
         i=i+1;
         //Eventually the condition of it being i<5 will be more automated to allow for an increase of difficulty and more values coming up. 
-        if(i<5 && sequenceToMatch){
+        if(i<maxInputs+1 && sequenceToMatch){
             //ChatGPT helped out for the check between the current and previous element. 
             //Its a quality of life improvement that allows for a value to appear on the square for any repeat
             //squares chosen in the sequence.
@@ -200,7 +205,7 @@ function showButtonsPeriodically(){
             }
 
             // Update display number on the square
-            const squareElement = document.getElementById('shape' + current);
+            const squareElement = document.getElementById('square-label' + current);
             if (squareElement) {
                 squareElement.innerText = repeatCount; // show 1, 2, 3, ...
             }
@@ -264,7 +269,7 @@ function pointCheck(squareX){
         playerInputs+=1;
         correctInputs+=1;
         //4 will be replaced by a variable to make it easier to increase difficulty
-        if(playerInputs === 4){
+        if(playerInputs === maxInputs){
             //Depending on how many inputs the user got correct a value will be passed into changeBackgroundColor()
             changeBackgroundColor(sequencePoints);
             //There will be a mini delay for when the background colour changes back to normal
@@ -276,6 +281,7 @@ function pointCheck(squareX){
             sequencePoints = 0;
             //This is for testing and checks if all the values have been emptied out
             console.log('Sequence to match array: ',sequenceToMatch);
+            maxInputs+=1;
             startMemorySequence();
         }
     }else if (squareX !== curSquare && curSquare){
@@ -283,7 +289,7 @@ function pointCheck(squareX){
         points = points - 50;
         sequencePoints-=50;
         playerInputs+=1;
-        if(playerInputs === 4){
+        if(playerInputs === maxInputs){
             changeBackgroundColor(sequencePoints);
             setTimeout(() => {changeBackgroundColor(1000000);
                 }, 500);
@@ -291,6 +297,7 @@ function pointCheck(squareX){
             playerInputs = 0;
             sequencePoints = 0;
             console.log('Sequence to match array: ',sequenceToMatch);
+            maxInputs+=1;
             startMemorySequence();
         }
     }else{

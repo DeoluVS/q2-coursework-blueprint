@@ -1,10 +1,18 @@
+.game-box{
+    margin: auto;
+    width: 50%; 
+    max-width: 250px;   
+}
+
+
 #shapes{
     display: flex;
     flex-direction: row;
     background-color: lightblue;
     flex-wrap: wrap;
-    max-width: 250px;
+    gap:20px
 }
+
 
 .square{
     margin: 2%;
