@@ -2,10 +2,36 @@
     text-align: center;
 }
 
+h1{
+    text-align: center;
+}
+
 .game-box{
     margin: auto;
     width: 50%; 
     max-width: 250px;   
+}
+
+.levels-grid{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.levels{
+    margin: 2%;
+    height: 100px;
+    width: 100px;
+    color: black;
+    border-radius: 25px;
+    border-style: none;
+}
+
+.levels:hover{
+    transform: scale(1.2);
+    transition: 0.2s;
 }
 
 @media screen and (max-width: 500px) {
@@ -24,10 +50,19 @@
     border-radius: 15px;
 }
 
+#shapesL2{
+    display: flex;
+    flex-direction: row;
+    background-color: lightblue;
+    flex-wrap: wrap;
+    gap:20px;
+    border-radius: 15px;
+}
+
 .button-box{
     position: relative;
     background-color: white;
-    border-radius: 15px;
+    border-radius: 25px;
     height: 100px;
     width: 100px;
     margin: 2%;
@@ -39,7 +74,7 @@
     height: 100px;
     width: 100px;
     color: black;
-    border-radius: 15px;
+    border-radius: 25px;
     border-style: none;
 }
 
@@ -72,6 +107,7 @@
     visibility: hidden;
     background-color: yellow;
 }
+
 
 #startBtn{
     display:block;

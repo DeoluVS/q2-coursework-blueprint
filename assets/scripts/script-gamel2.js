@@ -1,14 +1,15 @@
+//LEVEL 2 CODE
 let gameArr = [];
 let sequenceToMatch = [];
 let activeTimeouts = [];
 let points = 0;
 let playerInputs = 0;
 let correctInputs = 0;
-let maxInputs = 2;
+let maxInputs = 3;
 let sequencePoints = 0;
 const highestScorePossible = (2*100)+(3*100)+(4*100)+(5*100);
 //level 1 should have 4 max rounds just to ease the user in 
-const lastRound = 5;
+const lastRound = 6;
 //This boolean will turn off some functionality depending on if the sequence is being actively shown or not. 
 let shownSequence = false;
 
@@ -27,7 +28,7 @@ function hideButton1() {
     //remember the sequence.
     console.log('showSequence = ',shownSequence);
     if(shownSequence === false){
-        let button = document.getElementById("shape1");
+        let button = document.getElementById("shapeX1");
         button.style.visibility = "hidden";
         console.log('Hidden 1');
         gameArr = [];
@@ -45,7 +46,7 @@ function hideButton1() {
 function hideButton2(){
     console.log('showSequence = ',shownSequence);
     if(shownSequence === false){
-        let button = document.getElementById("shape2");
+        let button = document.getElementById("shapeX2");
         button.style.visibility = "hidden";
         console.log('Hidden 2');
         gameArr = [];
@@ -61,7 +62,7 @@ function hideButton2(){
 function hideButton3(){
     console.log('showSequence = ',shownSequence);
     if(shownSequence === false){
-        let button = document.getElementById("shape3");
+        let button = document.getElementById("shapeX3");
         button.style.visibility = "hidden";
         console.log('Hidden 3');
         gameArr = [];
@@ -77,7 +78,7 @@ function hideButton3(){
 function hideButton4(){
     console.log('showSequence = ',shownSequence);
     if(shownSequence === false){
-        let button = document.getElementById("shape4");
+        let button = document.getElementById("shapeX4");
         button.style.visibility = "hidden";
         console.log('Hidden 4');
         gameArr = [];
@@ -95,23 +96,23 @@ function hideButton4(){
 //a for loop to iterate through all buttons but for now I will keep it simple but implement it 
 //if there are more levels
 function showButton1(){
-    let button = document.getElementById("shape1");
+    let button = document.getElementById("shapeX1");
     button.style.visibility = "visible";
     console.log("Shown 1");
 }
 
 function showButton2(){
-    let button = document.getElementById("shape2");
+    let button = document.getElementById("shapeX2");
     button.style.visibility = "visible";
     console.log("Shown 2");
 }
 function showButton3(){
-    let button = document.getElementById("shape3");
+    let button = document.getElementById("shapeX3");
     button.style.visibility = "visible";
     console.log("Shown 3");
 }
 function showButton4(){
-    let button = document.getElementById("shape4");
+    let button = document.getElementById("shapeX4");
     button.style.visibility = "visible";
     console.log("Shown 4");
 }
@@ -188,11 +189,11 @@ function startMemorySequence(){
 }
 
 function showEndGameModal(){
-    document.getElementById('finalScore').textContent = points;
+    document.getElementById('finalScoreL2').textContent = points;
     let percent = (points/highestScorePossible)*100;
     let percentScore = `${percent}%`;
-    document.getElementById('finalPercentScore').textContent = percentScore;
-    const endModal = new bootstrap.Modal(document.getElementById('endGameModal'));
+    document.getElementById('finalPercentScoreL2').textContent = percentScore;
+    const endModal = new bootstrap.Modal(document.getElementById('endGameModalL2'));
     endModal.show();
 }
 
@@ -227,7 +228,7 @@ function showButtonsPeriodically(){
             }
 
             // Update display number on the square
-            const squareElement = document.getElementById('square-label' + current);
+            const squareElement = document.getElementById('square-labelX' + current);
             if (squareElement) {
                 squareElement.innerText = repeatCount; // show 1, 2, 3, ...
             }

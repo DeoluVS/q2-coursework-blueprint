@@ -34,22 +34,21 @@
         </header> 
     </div>
     <main>
-        <div class="px-4 py-5 my-5 text-center"> 
-            <img class="d-block mx-auto mb-4" src="assets/images/icons8-brain-100.png" alt="brain-image" width="100" height="100">
-            <h1 class="display-5 fw-bold text-body-emphasis">
-                Memory Bank    
-            </h1> 
-            <div class="col-lg-6 mx-auto"> 
-                <p class="lead mb-4">
-                    Play a series of sequences ranging in difficulty, with more and more items to remember as you progress. Are you ready for your mind to be stretched?
-                </p> 
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <button type="button" class="btn btn-primary btn-lg px-4 gap-3" href="level-select.html">
-                        Games
-                    </button>  
-                </div> 
-            </div> 
+        <div id="level-container">
+            <h1>SequenceMatch</h1>
+            <div id="levels-grid">
+                <button class="levels" onclick="window.location.href='level1.html'">
+                    <h3>Level 1</h3>
+                </button>
+                <button class="levels" onclick="window.location.href='level2.html'">
+                    <h3>Level 2</h3>
+                </button>
+                <button class="levels" onclick="window.location.href='coming-soon.html'">
+                    <h3>Level 3</h3>
+                </button>
+            </div>
         </div>
+        
     </main>
     <footer>
 
