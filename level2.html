@@ -36,51 +36,51 @@
     <main>
         <div>
             <h1 class="title-level">Level 2</h1>
-            <div class="game-box">
+            <div class="game-boxL2">
                 <div id="shapesL2">
                     <div class="button-box">
-                        <button class="square" id="shapeX1" onclick="hideButton1()">
+                        <button class="squareL2" id="shapeX1" onclick="hideButton1()">
                             <h1 id="square-labelX1">1</h1>
                         </button>
                     </div>
                     <div class="button-box">
-                        <button class="square" id="shapeX2" onclick="hideButton2()">
-                            <h1 id="square-labelX2">2</h1>
+                        <button class="squareL2" id="shapeX2" onclick="hideButton2()">
+                            <h1 id="square-labelX2">1</h1>
                         </button>
                     </div>
                     <div class="button-box">
-                        <button class="square" id="shapeX3" onclick="hideButton3()">
-                            <h1 id="square-labelX3">3</h1>
+                        <button class="squareL2" id="shapeX3" onclick="hideButton3()">
+                            <h1 id="square-labelX3">1</h1>
                         </button>
                     </div>
                     <div class="button-box">
-                        <button class="square" id="shapeX4" onclick="hideButton4()">
-                            <h1 id="square-labelX4">4</h1>
+                        <button class="squareL2" id="shapeX4" onclick="hideButton4()">
+                            <h1 id="square-labelX4">1</h1>
                         </button>
                     </div>
                     <div class="button-box">
-                        <button class="square" id="shapeX4" onclick="hideButton4()">
-                            <h1 id="square-labelX4">5</h1>
+                        <button class="squareL2" id="shapeX5" onclick="hideButton5()">
+                            <h1 id="square-labelX5">1</h1>
                         </button>
                     </div>
                     <div class="button-box">
-                        <button class="square" id="shapeX4" onclick="hideButton4()">
-                            <h1 id="square-labelX4">6</h1>
+                        <button class="squareL2" id="shapeX6" onclick="hideButton6()">
+                            <h1 id="square-labelX6">1</h1>
                         </button>
                     </div>
                     <div class="button-box">
-                        <button class="square" id="shapeX4" onclick="hideButton4()">
-                            <h1 id="square-labelX4">7</h1>
+                        <button class="squareL2" id="shapeX7" onclick="hideButton7()">
+                            <h1 id="square-labelX7">1</h1>
                         </button>
                     </div>
                     <div class="button-box">
-                        <button class="square" id="shapeX4" onclick="hideButton4()">
-                            <h1 id="square-labelX4">8</h1>
+                        <button class="squareL2" id="shapeX8" onclick="hideButton8()">
+                            <h1 id="square-labelX8">1</h1>
                         </button>
                     </div>
-                    <div class="button-box">
-                        <button class="square" id="shapeX4" onclick="hideButton4()">
-                            <h1 id="square-labelX4">9</h1>
+                    <div class="button-box"> 
+                        <button class="squareL2" id="shapeX9" onclick="hideButton9()">
+                            <h1 id="square-labelX9">1</h1>
                         </button>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
             </button>
         </div>
         <!-- Hidden modal overlay -->
-        <div class="modal fade" id="endGameModalL2" tabindex="-1" aria-labelledby="endGameModalLabel" aria-hidden="true">
+        <div class="modal fade" id="endGameModalL2" tabindex="-1" aria-labelledby="endGameModalLabelL2" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 shadow">
               <div class="modal-header border-bottom-0">
@@ -103,12 +103,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <p>Great job! You've completed the game.</p>
+                <h3>Great job! You've completed the game.</h3>
                 <h4>Your Score: <span id="finalScoreL2">0</span></h4>
                 <h4><span id="finalPercentScoreL2">0%</span></h4>
               </div>
               <div class="modal-footer border-top-0">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="window.location.href='level-select.html'">Level Select</button>
                 <button type="button" class="btn btn-primary" onclick="restartGame()">Play Again</button>
               </div>
             </div>

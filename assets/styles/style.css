@@ -12,6 +12,12 @@ h1{
     max-width: 250px;   
 }
 
+.game-boxL2{
+    margin: auto;
+    width: 100%; 
+    max-width: 400px;   
+}
+
 .levels-grid{
     display: flex;
     flex-direction: row;
@@ -39,6 +45,15 @@ h1{
         margin: auto;
         width: 100%;
     }
+
+}
+
+@media screen and (max-width: 380px){
+    .game-boxL2{
+        margin: auto;
+        width: 100%;
+        max-width: 300px;
+    }
 }
 
 #shapes{
@@ -55,7 +70,7 @@ h1{
     flex-direction: row;
     background-color: lightblue;
     flex-wrap: wrap;
-    gap:20px;
+    gap:10px;
     border-radius: 15px;
 }
 
@@ -78,6 +93,16 @@ h1{
     border-style: none;
 }
 
+.squareL2{
+    margin: 2%;
+    background-color: black;
+    height: 100px;
+    width: 100px;
+    color: black;
+    border-radius: 25px;
+    border-style: none;
+}
+
 .square:hover{
     transform: scale(1.2);
     transition: 0.5s;
@@ -86,6 +111,37 @@ h1{
 .square:active{
     transform: scale(0.9);
 
+}
+
+.squareL2:hover{
+    transform: scale(1.2);
+    transition: 0.5s;
+}
+
+.squareL2:active{
+    transform: scale(0.9);
+
+}
+
+@media screen and (max-width: 380px){
+    .squareL2{
+        margin: 1%;
+        background-color: black;
+        height: 80px;
+        width: 80px;
+        color: black;
+        border-radius: 25px;
+        border-style: none;
+    }
+
+    .button-box{
+        position: relative;
+        background-color: white;
+        border-radius: 25px;
+        height: 79px;
+        width: 79px;
+        margin: 1%;
+    }
 }
 
 #shape1{
@@ -108,8 +164,52 @@ h1{
     background-color: yellow;
 }
 
+#shapeX1{
+    visibility: visible;
+    background-color: red;
+}
 
+#shapeX2{
+    visibility: visible;
+    background-color: orange;
+}
+#shapeX3{
+    visibility: visible;
+    background-color: yellow;
+}
+#shapeX4{
+    visibility: visible;
+    background-color: #00FF00;
+}
+#shapeX5{
+    visibility: visible;
+    background-color: green;
+    color: white;
+}
+#shapeX6{
+    visibility: visible;
+    background-color: cyan;
+}
+#shapeX7{
+    visibility: visible;
+    background-color: darkblue;
+    color: white;
+}
+#shapeX8{
+    visibility: visible;
+    background-color: purple;
+    color: white;
+}
+#shapeX9{
+    visibility: visible;
+    background-color: magenta;
+}
 #startBtn{
+    display:block;
+    margin: auto;
+}
+
+#startBtnL2{
     display:block;
     margin: auto;
 }

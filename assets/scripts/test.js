@@ -58,4 +58,38 @@ function myLoop() {         //  create a loop function
   }, 1000)
 } 
 
-myLoop();
+
+
+for(let i=0; i<10;i++){
+  `hello${i}`();
+}
+
+function hello1(){
+  console.log("Hello",1)
+}
+
+function hello2(){
+  console.log("Hello",2)
+}
+
+function hello3(){
+  console.log("Hello",3)
+}
+function hello4(){
+  console.log("Hello",4)
+}
+function hello5(){
+  console.log("Hello",5)
+}
+function hello6(){
+  console.log("Hello",6)
+}
+function hello7(){
+  console.log("Hello",7)
+}
+function hello8(){
+  console.log("Hello",8)
+}
+function hello9(){
+  console.log("Hello",9)
+}
