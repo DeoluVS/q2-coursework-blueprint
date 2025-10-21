@@ -268,7 +268,7 @@ function showButtonsPeriodically(){
             i=0;    
         }
         //This will eventually be removed but it is here for testing purposes.
-        document.getElementById('sequence-order').innerHTML = sequenceToMatch;
+        //document.getElementById('sequence-order').innerHTML = sequenceToMatch;
         //There's a 2 second delay after each recursive call. It will change depending on difficulty.
     },2000)
 }

@@ -1,7 +1,20 @@
 //redirector.js
-const VALID_PATHS = ["/", "/index.html", "/level1.html", "/level2.html", "/level-select.html", "/coming-soon.html"];
-
 document.addEventListener("DOMContentLoaded", ()=>{
+    //Redirector.js doesn't work in deployment as the subdirectory isn't identical in testing as it is in deplyment.
+    //Deployment: "/q2-coursework-blueprint/index.html" Testing: /index.html
+    //Using ternary statement to check for a path that works for both phases
+    //If true it adds on q2-coursework-blueprint and if not then it assigns "" or an empty string to basePath
+    const basePath = window.pathname.includes("/q2-coursework-blueprint")
+    ? "/q2-courswork-blueprint" : "";
+
+    const VALID_PATHS = [
+        `${basePath}/`, 
+        `${basePath}/index.html`, 
+        `${basePath}/level1.html`, 
+        `${basePath}/level2.html`, 
+        `${basePath}/level-select.html`, 
+        `${basePath}/coming-soon.html`
+    ];    
     const currentPath = window.location.pathname;
 
     const isKnown = VALID_PATHS.includes(currentPath);
