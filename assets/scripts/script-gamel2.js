@@ -297,7 +297,7 @@ function startMemorySequence(){
 
 function showEndGameModal(){
     document.getElementById('finalScoreL2').textContent = points;
-    let percent = (points/highestScorePossible)*100;
+    let percent = parseInt((points/highestScorePossible)*100);
     let percentScore = `${percent}%`;
     document.getElementById('finalPercentScoreL2').textContent = percentScore;
     const endModal = new bootstrap.Modal(document.getElementById('endGameModalL2'));
