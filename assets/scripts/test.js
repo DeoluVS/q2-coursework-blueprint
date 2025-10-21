@@ -60,8 +60,8 @@ function myLoop() {         //  create a loop function
 
 
 
-for(let i=0; i<10;i++){
-  `hello${i}`();
+for(let i=0; i<9;i++){
+  console.log(i+1);
 }
 
 function hello1(){

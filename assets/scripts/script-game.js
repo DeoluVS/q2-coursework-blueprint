@@ -187,6 +187,12 @@ function startMemorySequence(){
         
 }
 
+function resetButtons(){
+    for (let i=0; i<9;i++){
+        document.getElementById(`square-labelX${i+1}`).innerText = 0;
+    }
+}
+
 function showEndGameModal(){
     document.getElementById('finalScore').textContent = points;
     let percent = (points/highestScorePossible)*100;
@@ -305,6 +311,7 @@ function pointCheck(squareX){
             console.log('Sequence to match array: ',sequenceToMatch);
             maxInputs+=1;
             startMemorySequence();
+            resetButtons();
         }
     }else if (squareX !== curSquare && curSquare){
         console.log("Wrong");
@@ -321,6 +328,7 @@ function pointCheck(squareX){
             console.log('Sequence to match array: ',sequenceToMatch);
             maxInputs+=1;
             startMemorySequence();
+            resetButtons();
         }
     }else{
         console.log("Empty array or something went wrong");
