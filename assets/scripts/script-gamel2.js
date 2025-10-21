@@ -331,7 +331,7 @@ function showButtonsPeriodically(){
             if (current === prev) {
                 repeatCount++;
             } else {
-                repeatCount = 1;
+                repeatCount = 0;
             }
 
             // Update display number on the square

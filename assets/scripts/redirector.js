@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     //Using ternary statement to check for a path that works for both phases
     //If true it adds on q2-coursework-blueprint and if not then it assigns "" or an empty string to basePath
     const basePath = window.location.pathname.includes("/q2-coursework-blueprint")
-    ? "/q2-courswork-blueprint" : "";
+    ? "/q2-coursework-blueprint" : "";
 
     const VALID_PATHS = [
         `${basePath}/`, 
