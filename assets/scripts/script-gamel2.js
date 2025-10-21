@@ -274,6 +274,7 @@ let i=0;
 
 //This starts the sequence and resets all the necessary arrays and variables.
 function startMemorySequence(){
+    document.getElementById('startBtnL2').disabled = true;
     sequenceToMatch = [];
     gameArr = [];
     //This clears all timers that may still be running.
@@ -412,6 +413,10 @@ function showButtonsPeriodically(){
     },2000)
 }
 
+function updateScoreBoard(){
+    document.getElementById("scoreBoardL2").value = points;
+}
+
 //This is shown after the sequence has done being shown. It checks if the user enters the right inputs in
 //relation to the sequenceToMatch array. 
 function pointCheck(squareX){
@@ -425,6 +430,7 @@ function pointCheck(squareX){
         //100 points for the correct input and -50 for anything wrong
         points = points + 100;
         sequencePoints+=100;
+        updateScoreBoard();
         //playerInputs checks if the user has chosen the same amount of inputs as the sequenceToMatch initial length (4),
         //and gets incremented by 1 each time the user inputs something.
         playerInputs+=1;
@@ -451,6 +457,7 @@ function pointCheck(squareX){
         console.log("Wrong");
         points = points - 50;
         sequencePoints-=50;
+        updateScoreBoard();
         playerInputs+=1;
         console.log("Current total points: ", points);
         if(playerInputs === maxInputs){

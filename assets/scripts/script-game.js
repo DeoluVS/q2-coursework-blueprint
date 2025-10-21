@@ -166,6 +166,7 @@ let i=0;
 
 //This starts the sequence and resets all the necessary arrays and variables.
 function startMemorySequence(){
+    document.getElementById('startBtn').disabled = true;
     sequenceToMatch = [];
     gameArr = [];
     //This clears all timers that may still be running.
@@ -195,7 +196,7 @@ function resetButtons(){
 
 function showEndGameModal(){
     document.getElementById('finalScore').textContent = points;
-    let percent = (points/highestScorePossible)*100;
+    let percent = parseInt((points/highestScorePossible)*100);
     let percentScore = `${percent}%`;
     document.getElementById('finalPercentScore').textContent = percentScore;
     const endModal = new bootstrap.Modal(document.getElementById('endGameModal'));
@@ -205,6 +206,7 @@ function showEndGameModal(){
 function restartGame(){
     maxInputs = 2;
     points = 0;
+    updateScoreBoard();
     sequencePoints = 0;
     shownSequence = false;
     startMemorySequence();
@@ -279,6 +281,10 @@ function showButtonsPeriodically(){
     },2000)
 }
 
+function updateScoreBoard(){
+    document.getElementById("scoreBoard").value = points;
+}
+
 //This is shown after the sequence has done being shown. It checks if the user enters the right inputs in
 //relation to the sequenceToMatch array. 
 function pointCheck(squareX){
@@ -292,6 +298,7 @@ function pointCheck(squareX){
         //100 points for the correct input and -50 for anything wrong
         points = points + 100;
         sequencePoints+=100;
+        updateScoreBoard();
         //playerInputs checks if the user has chosen the same amount of inputs as the sequenceToMatch initial length (4),
         //and gets incremented by 1 each time the user inputs something.
         playerInputs+=1;
@@ -317,6 +324,7 @@ function pointCheck(squareX){
         console.log("Wrong");
         points = points - 50;
         sequencePoints-=50;
+        updateScoreBoard();
         playerInputs+=1;
         if(playerInputs === maxInputs){
             changeBackgroundColor(sequencePoints);

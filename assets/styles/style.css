@@ -204,6 +204,17 @@ h1{
     visibility: visible;
     background-color: magenta;
 }
+
+#scoreBoard{
+    text-align: center;
+    font-weight: bold;
+}
+
+#scoreBoardL2{
+    text-align: center;
+    font-weight: bold;
+}
+
 #startBtn{
     display:block;
     margin: auto;
