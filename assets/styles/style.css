@@ -145,22 +145,22 @@ h1{
 }
 
 #shape1{
-    visibility: hidden;
+    visibility: visible;
     background-color: red;
 }
 
 #shape2{
-    visibility: hidden;
+    visibility: visible;
     background-color: blue;
 }
 
 #shape3{
-    visibility: hidden;
+    visibility: visible;
     background-color: green;
 }
 
 #shape4{
-    visibility: hidden;
+    visibility: visible;
     background-color: yellow;
 }
 
