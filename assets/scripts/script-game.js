@@ -189,7 +189,7 @@ function startMemorySequence(){
 
 function resetButtons(){
     for (let i=0; i<9;i++){
-        document.getElementById(`square-labelX${i+1}`).innerText = 0;
+        document.getElementById(`square-label${i+1}`).innerText = 0;
     }
 }
 
