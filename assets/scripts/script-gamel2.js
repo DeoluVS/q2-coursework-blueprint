@@ -309,7 +309,12 @@ function resetButtons(){
 }
 
 function restartGame(){
-    maxInputs = 2;
+    const modalElement = document.getElementById("endGameModalL2");
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if(modalInstance){
+        modalInstance.hide();
+    }
+    maxInputs = 3;
     points = 0;
     sequencePoints = 0;
     shownSequence = false;

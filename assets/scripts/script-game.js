@@ -156,12 +156,18 @@ function showEndGameModal(){
 }
 
 function restartGame(){
+    const modalElement = document.getElementById("endGameModal");
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if(modalInstance){
+        modalInstance.hide();
+    }
     maxInputs = 2;
     points = 0;
     updateScoreBoard();
     sequencePoints = 0;
     shownSequence = false;
     startMemorySequence();
+    
 }
 
 //This is the main function that presents the sequence to the user
@@ -172,7 +178,7 @@ function showButtonsPeriodically(){
     setTimeout(function() {
         i=i+1;
         //Eventually the condition of it being i<5 will be more automated to allow for an increase of difficulty and more values coming up. 
-        if(i<maxInputs+1 && sequenceToMatch){
+        if(i<maxInputs+1 && sequenceToMatch.length > 0){
             //ChatGPT helped out for the check between the current and previous element. 
             //Its a quality of life improvement that allows for a value to appear on the square for any repeat
             //squares chosen in the sequence.
@@ -218,14 +224,13 @@ function showButtonsPeriodically(){
                 console.log("Something is wrong");
             }
             showButtonsPeriodically();
-        }else if(i>=(maxInputs+1) && sequenceToMatch){
+        }else if(i>=(maxInputs+1) && sequenceToMatch > 0){
             //After sequenceToMatch has been fully gone through all buttons are shown for the user to 
             //enter what they remember
             showButton();
             shownSequence = true;
             i=0;    
         }
-        //This will eventually be removed but it is here for testing purposes.
         //document.getElementById("sequence-order").innerHTML = sequenceToMatch;
         //There"s a 2 second delay after each recursive call. It will change depending on difficulty.
     },2000)
