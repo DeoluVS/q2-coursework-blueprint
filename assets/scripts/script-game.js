@@ -7,6 +7,7 @@ let correctInputs = 0;
 let maxInputs = 2;
 let sequencePoints = 0;
 const highestScorePossible = (2*100)+(3*100)+(4*100)+(5*100);
+const numberOfSquares = 4;
 //level 1 should have 4 max rounds just to ease the user in 
 const lastRound = 5;
 //This boolean will turn off some functionality depending on if the sequence is being actively shown or not. 
@@ -25,70 +26,40 @@ function hideButton1() {
     //When the sequence runs after the button has been pressed this function will mostly work to remove 
     //buttons. When the sequence has finished showing itself it will take in user inputs to check if they 
     //remember the sequence.
-    console.log('showSequence = ',shownSequence);
     if(shownSequence === false){
         let button = document.getElementById("shape1");
         button.style.visibility = "hidden";
-        console.log('Hidden 1');
-        gameArr = [];
     }else{
-        //GameArr will be removed but is mostly used for testing. In the deployment phase it will be removed.
-        console.log('Taking points in');
         pointCheck(1);  //Depending on the square an input will be sent to the pointCheck function to see if the user
-        gameArr.push(1);//is correct. This is the same for all hideButton functions
-         
     }
-    
-    console.log('GameArr: ',gameArr);
+    console.log("GameArr: ",gameArr);
 }
 
 function hideButton2(){
-    console.log('showSequence = ',shownSequence);
     if(shownSequence === false){
         let button = document.getElementById("shape2");
         button.style.visibility = "hidden";
-        console.log('Hidden 2');
-        gameArr = [];
     }else{
-        console.log('Taking points in');
         pointCheck(2);
-        gameArr.push(2);
-         
     }
-    
-    console.log('GameArr: ',gameArr);
 }
+
 function hideButton3(){
-    console.log('showSequence = ',shownSequence);
     if(shownSequence === false){
         let button = document.getElementById("shape3");
         button.style.visibility = "hidden";
-        console.log('Hidden 3');
-        gameArr = [];
     }else{
-        console.log('Taking points in');
         pointCheck(3);
-        gameArr.push(3);
-         
     }
-    
-    console.log('GameArr: ',gameArr);
 }
+
 function hideButton4(){
-    console.log('showSequence = ',shownSequence);
     if(shownSequence === false){
         let button = document.getElementById("shape4");
         button.style.visibility = "hidden";
-        console.log('Hidden 4');
-        gameArr = [];
     }else{
-        console.log('Taking points in');
         pointCheck(4);
-        gameArr.push(4);
-         
     }
-    
-      console.log('GameArr: ',gameArr);
 }
 
 //Since document.getElementById uses a string value to find the element it is possible to use
@@ -97,26 +68,22 @@ function hideButton4(){
 function showButton1(){
     let button = document.getElementById("shape1");
     button.style.visibility = "visible";
-    console.log("Shown 1");
 }
 
 function showButton2(){
     let button = document.getElementById("shape2");
     button.style.visibility = "visible";
-    console.log("Shown 2");
 }
 function showButton3(){
     let button = document.getElementById("shape3");
     button.style.visibility = "visible";
-    console.log("Shown 3");
 }
 function showButton4(){
     let button = document.getElementById("shape4");
     button.style.visibility = "visible";
-    console.log("Shown 4");
 }
 
-//Hides all buttons at the same time. Normally used at the beginning on the game when the sequence hasn't been played.
+//Hides all buttons at the same time. Normally used at the beginning on the game when the sequence hasn"t been played.
 //Or before the sequence starts.
 function hideButtons(){
     hideButton1();
@@ -133,47 +100,34 @@ function showButton(){
     showButton4();
 }
 
-//This function is mostly for testing and will be removed after the deployment phase starts
-function updateArr(){
-    if (shownSequence){
-        document.getElementById("sequence-order").innerHTML = gameArr;
-    }else{
-        document.getElementById('check-array').innerHTML = sequenceToMatch;
-    }
-}
-
 //This randomly generates the sequence and adds it to the array
 function generateSequence(){
-    for (let i=0; i<maxInputs;i++){
-        sequenceToMatch.push(getRandomIntInclusive(1,4));
+    for (let i = 0; i < maxInputs; i++){
+        sequenceToMatch.push(getRandomIntInclusive(1,numberOfSquares));
     }
-    console.log(sequenceToMatch);
 }
 
 //Reworking the for loop to work by recursion instead of the normal for loop:
 //https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop
 function myLoop() {         //  create a loop function
   setTimeout(function() {   //  call a 3s setTimeout when the loop is called
-    console.log('hello');   //  your code here
+    console.log("hello");   //  your code here
     i++;                    //  increment the counter
     if (i < 10) {           //  if the counter < 10, call the loop function
       myLoop();             //  ..  again which will trigger another 
     }                       //  ..  setTimeout()
   }, 3000)
 } 
-
 let i=0;
 
 //This starts the sequence and resets all the necessary arrays and variables.
 function startMemorySequence(){
-    document.getElementById('startBtn').disabled = true;
+    document.getElementById("startBtn").disabled = true;
     sequenceToMatch = [];
-    gameArr = [];
     //This clears all timers that may still be running.
     for (const t of activeTimeouts) clearTimeout(t);
     activeTimeouts = [];
     shownSequence = false;
-    
     i=0;
     if(maxInputs <= lastRound){
         hideButtons();
@@ -181,11 +135,9 @@ function startMemorySequence(){
         showButtonsPeriodically();
     }else{
         //This calls the bootstrap API to create a new modal instance
-        console.log("Game Finished");
         showEndGameModal();
         return;
-    }
-        
+    } 
 }
 
 function resetButtons(){
@@ -195,11 +147,11 @@ function resetButtons(){
 }
 
 function showEndGameModal(){
-    document.getElementById('finalScore').textContent = points;
+    document.getElementById("finalScore").textContent = points;
     let percent = parseInt((points/highestScorePossible)*100);
     let percentScore = `${percent}%`;
-    document.getElementById('finalPercentScore').textContent = percentScore;
-    const endModal = new bootstrap.Modal(document.getElementById('endGameModal'));
+    document.getElementById("finalPercentScore").textContent = percentScore;
+    const endModal = new bootstrap.Modal(document.getElementById("endGameModal"));
     endModal.show();
 }
 
@@ -226,16 +178,14 @@ function showButtonsPeriodically(){
             //squares chosen in the sequence.
             const current = sequenceToMatch[i - 1];
             const prev = sequenceToMatch[i - 2];
-
             // Track consecutive counts
             if (current === prev) {
                 repeatCount++;
             } else {
                 repeatCount = 1;
             }
-
             // Update display number on the square
-            const squareElement = document.getElementById('square-label' + current);
+            const squareElement = document.getElementById("square-label" + current);
             if (squareElement) {
                 squareElement.innerText = repeatCount; // show 1, 2, 3, ...
             }
@@ -245,7 +195,7 @@ function showButtonsPeriodically(){
             //0-3). 
             if(sequenceToMatch[i-1] === 1){
                 showButton1();
-                //Changed to be iniitialised each time to ensure there aren't repeat old timers being used.
+                //Changed to be iniitialised each time to ensure there aren"t repeat old timers being used.
                 const t = setTimeout(() => {hideButton1();
                 }, 2000);
                 activeTimeouts.push(t);
@@ -276,8 +226,8 @@ function showButtonsPeriodically(){
             i=0;    
         }
         //This will eventually be removed but it is here for testing purposes.
-        //document.getElementById('sequence-order').innerHTML = sequenceToMatch;
-        //There's a 2 second delay after each recursive call. It will change depending on difficulty.
+        //document.getElementById("sequence-order").innerHTML = sequenceToMatch;
+        //There"s a 2 second delay after each recursive call. It will change depending on difficulty.
     },2000)
 }
 
@@ -288,13 +238,11 @@ function updateScoreBoard(){
 //This is shown after the sequence has done being shown. It checks if the user enters the right inputs in
 //relation to the sequenceToMatch array. 
 function pointCheck(squareX){
-    console.log('Function activated');
     //Takes the first value at sequenceToMatch[0] removes it from the array and stores it in curSquare.
     //Eventually shift() will empty the array fully.
     let curSquare = sequenceToMatch.shift();
     //If curSquare is the same as the first value
     if(squareX === curSquare && curSquare){
-        console.log("Correct");
         //100 points for the correct input and -50 for anything wrong
         points = points + 100;
         sequencePoints+=100;
@@ -315,13 +263,11 @@ function pointCheck(squareX){
             playerInputs = 0;
             sequencePoints = 0;
             //This is for testing and checks if all the values have been emptied out
-            console.log('Sequence to match array: ',sequenceToMatch);
             maxInputs+=1;
             startMemorySequence();
             resetButtons();
         }
     }else if (squareX !== curSquare && curSquare){
-        console.log("Wrong");
         points = points - 50;
         sequencePoints-=50;
         updateScoreBoard();
@@ -333,7 +279,6 @@ function pointCheck(squareX){
             correctInputs = 0;
             playerInputs = 0;
             sequencePoints = 0;
-            console.log('Sequence to match array: ',sequenceToMatch);
             maxInputs+=1;
             startMemorySequence();
             resetButtons();
@@ -350,23 +295,23 @@ function changeBackgroundColor(levelOfAccuracy){
     //level 1 max points = (lengthOfSequence*100). And done by what amount of points obtained that level instead of
     //overall points. As that would make it really hard to ever get a full correct green win. 
     //Green is maxpoint, orange is green/yellow is 80%, orange is 60%, orange/red is 40, and red is 20 and below. 
-    if(typeof levelOfAccuracy == 'number'){
+    if(typeof levelOfAccuracy == "number"){
         if(levelOfAccuracy === 1000000){
-            document.body.style.backgroundColor = 'white';
+            document.body.style.backgroundColor = "white";
         }else if(levelOfAccuracy === maxPointsPossible){
-            document.body.style.backgroundColor = '#2bd42f'
+            document.body.style.backgroundColor = "#2bd42f"
         }else if(levelOfAccuracy < maxPointsPossible && levelOfAccuracy >= (maxPointsPossible*0.75)){
-            document.body.style.backgroundColor = '#d5e41b';
+            document.body.style.backgroundColor = "#d5e41b";
         }else if(levelOfAccuracy < (maxPointsPossible *0.75) && levelOfAccuracy >= (maxPointsPossible*0.5)){
-            document.body.style.backgroundColor = '#f1990e';
+            document.body.style.backgroundColor = "#f1990e";
         }else if(levelOfAccuracy < (maxPointsPossible * 0.5) && levelOfAccuracy >= (maxPointsPossible*0.25)){
-            document.body.style.backgroundColor = '#ff6000';
+            document.body.style.backgroundColor = "#ff6000";
         }else if(levelOfAccuracy < (maxPointsPossible *0.25)){
-            document.body.style.backgroundColor = '#ff1300';
+            document.body.style.backgroundColor = "#ff1300";
         }else{
-            console.log('No colours left');
+            console.log("No colours left");
         } 
     }else{
-        console.log('Invalid levelOfAccuracy: ', levelOfAccuracy);
+        console.log("Invalid levelOfAccuracy: ", levelOfAccuracy);
     }
 }

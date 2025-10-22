@@ -7,6 +7,7 @@ let playerInputs = 0;
 let correctInputs = 0;
 let maxInputs = 3;
 let sequencePoints = 0;
+const numberOfSquares = 9;
 const highestScorePossible = (3*100)+(4*100)+(5*100)+(6*100);
 //level 1 should have 4 max rounds just to ease the user in 
 const lastRound = 6;
@@ -253,7 +254,7 @@ function updateArr(){
 //This randomly generates the sequence and adds it to the array
 function generateSequence(){
     for (let i=0; i<maxInputs;i++){
-        sequenceToMatch.push(getRandomIntInclusive(1,9));
+        sequenceToMatch.push(getRandomIntInclusive(1,numberOfSquares));
     }
     console.log(sequenceToMatch);
 }
@@ -276,12 +277,10 @@ let i=0;
 function startMemorySequence(){
     document.getElementById('startBtnL2').disabled = true;
     sequenceToMatch = [];
-    gameArr = [];
     //This clears all timers that may still be running.
     for (const t of activeTimeouts) clearTimeout(t);
     activeTimeouts = [];
     shownSequence = false;
-    
     i=0;
     if(maxInputs <= lastRound){
         hideButtons();
@@ -289,11 +288,9 @@ function startMemorySequence(){
         showButtonsPeriodically();
     }else{
         //This calls the bootstrap API to create a new modal instance
-        console.log("Game Finished");
         showEndGameModal();
         return;
-    }
-        
+    }   
 }
 
 function showEndGameModal(){

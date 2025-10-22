@@ -215,6 +215,10 @@ h1{
     font-weight: bold;
 }
 
+#how-to-play-row{
+    text-align: center;
+}
+
 #startBtn{
     display:block;
     margin: auto;
