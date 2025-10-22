@@ -380,3 +380,4 @@ else if (squareX !== curSquare && curSquare){
     }
 }
 ```
+When the user is wrong, it works in a similar way, however
