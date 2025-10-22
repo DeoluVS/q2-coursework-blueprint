@@ -316,6 +316,7 @@ function restartGame(){
     }
     maxInputs = 3;
     points = 0;
+    updateScoreBoard();
     sequencePoints = 0;
     shownSequence = false;
     startMemorySequence();
