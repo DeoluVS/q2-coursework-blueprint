@@ -1,6 +1,6 @@
 //redirector.js
 document.addEventListener("DOMContentLoaded", ()=>{
-    //Redirector.js doesn't work in deployment as the subdirectory isn't identical in testing as it is in deplyment.
+    //Redirector.js ensures that redirects work for .
     //Deployment: "/q2-coursework-blueprint/index.html" Testing: /index.html
     //Using ternary statement to check for a path that works for both phases
     //If true it adds on q2-coursework-blueprint and if not then it assigns "" or an empty string to basePath
@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
         `${basePath}/`, 
         `${basePath}/index.html`, 
         `${basePath}/level1.html`, 
-        `${basePath}/level2.html`, 
+        `${basePath}/level2.html`,
+        `${basePath}/level3.html`, 
         `${basePath}/level-select.html`, 
         `${basePath}/coming-soon.html`
     ];    
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     if(currentPath == `${basePath}/coming-soon.html`){
         const t = setTimeout(() => {console.log("Redirect message up");
                 }, 1000);
-        document.getElementById("redirectMessage").textContent = "Redirecting to level Select";
+        document.getElementById("redirectMessage").textContent = "Redirecting to level select screen";
         const u = setTimeout(() => {window.location.replace(`${basePath}/level-select.html`);
                 }, 5000);
     }

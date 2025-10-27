@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Series of games to check your reaction time and memory.">
+    <meta name="keywords" content="Games, memory, reaction time">
+    <title>Memory Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="assets/styles/style.css">
+    <script src="assets/scripts/script-gamel3.js"></script>
+</head>
+<body>
+    <div class="container"> 
+        <header class="d-flex flex-column justify-content-center align-items-center py-3 mb-4 border-bottom"> 
+            <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"> 
+                <span class="fs-4">
+                    Memory Bank
+                </span> 
+            </a> 
+            <ul class="nav nav-pills"> 
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active" aria-current="page">
+                        Home
+                    </a>
+                </li> 
+                <li class="nav-item">
+                    <a href="level-select.html" class="nav-link">
+                        Games
+                    </a>
+                </li>   
+            </ul> 
+        </header> 
+    </div>
+    <main>
+        <div>
+            <h1 class="title-level">Level 3</h1>
+            <div class="game-boxL3">
+                <div id="shapesL3">
+                    <div class="button-box">
+                        <button class="squareL3" id="shapeY1" onclick="hideButtonX(1)">
+                            <h1 id="square-labelY1" class="squareLabels">0</h1>
+                        </button>
+                    </div>
+                    <div class="button-box">
+                        <button class="squareL3" id="shapeY2" onclick="hideButtonX(2)">
+                            <h1 id="square-labelY2" class="squareLabels">0</h1>
+                        </button>
+                    </div>
+                    <div class="button-box">
+                        <button class="squareL3" id="shapeY3" onclick="hideButtonX(3)">
+                            <h1 id="square-labelY3" class="squareLabels">0</h1>
+                        </button>
+                    </div>
+                    <div class="button-box">
+                        <button class="squareL3" id="shapeY4" onclick="hideButtonX(4)">
+                            <h1 id="square-labelY4" class="squareLabels">0</h1>
+                        </button>
+                    </div>
+                    <div class="button-box">
+                        <button class="squareL3" id="shapeY5" onclick="hideButtonX(5)">
+                            <h1 id="square-labelY5" class="squareLabels">0</h1>
+                        </button>
+                    </div>
+                    <div class="button-box">
+                        <button class="squareL3" id="shapeY6" onclick="hideButtonX(6)">
+                            <h1 id="square-labelY6" class="squareLabels">0</h1>
+                        </button>
+                    </div>
+                    <div class="button-box">
+                        <button class="squareL3" id="shapeY7" onclick="hideButtonX(7)">
+                            <h1 id="square-labelY7" class="squareLabels">0</h1>
+                        </button>
+                    </div>
+                    <div class="button-box">
+                        <button class="squareL3" id="shapeY8" onclick="hideButtonX(8)">
+                            <h1 id="square-labelY8" class="squareLabels">0</h1>
+                        </button>
+                    </div>
+                    <div class="button-box"> 
+                        <button class="squareL3" id="shapeY9" onclick="hideButtonX(9)">
+                            <h1 id="square-labelY9" class="squareLabels">0</h1>
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <input id="scoreBoardL3" class="form-control form-control-lg" type="text" aria-label=".form-control-lg example" value="0" readonly>
+            </div>
+            </div>
+            <br>
+            <br>
+            <!--Going to comment out sequence display or repurpose for point score-->
+            <h1 class = "sequece-display" id="sequence-order"></h1>
+            <h1 class = "sequece-display" id="check-array"></h1>
+            <button type="button" id="startBtnL3" class="btn btn-primary btn-lg px-4 gap-3" onclick="startMemorySequence()">
+                Start
+            </button>
+        </div>
+        <!-- Hidden modal overlay -->
+        <div class="modal fade" id="endGameModalL3" tabindex="-1" aria-labelledby="endGameModalLabelL3">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow">
+              <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5" id="endGameModalLabelL3">Game Over</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <h3>Great job! You've completed the game.</h3>
+                <h4>Your Score: <span id="finalScoreL3">0</span></h4>
+                <h4><span id="finalPercentScoreL3">0%</span></h4>
+              </div>
+              <div class="modal-footer border-top-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="window.location.href='level-select.html'">Level Select</button>
+                <button type="button" class="btn btn-primary" onclick="restartGame()">Play Again</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </main>
+    <footer>
+
+    </footer>
+
+</body>
+</html>

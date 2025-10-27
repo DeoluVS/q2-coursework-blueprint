@@ -4,12 +4,13 @@ let activeTimeouts = [];
 let points = 0;
 let playerInputs = 0;
 let correctInputs = 0;
-let maxInputs = 2;
+let maxInputs = 3;
 let sequencePoints = 0;
-const highestScorePossible = (2*100)+(3*100)+(4*100)+(5*100);
-const numberOfSquares = 4;
+const colourIndex = ["red", "orange", "yellow", "#00FF00", "green", "cyan", "darkblue", "purple", "magenta"];
+const highestScorePossible = (3*100)+(4*100)+(5*100)+(6*100);
+const numberOfSquares = 9;
 //level 1 should have 4 max rounds just to ease the user in 
-const lastRound = 5;
+const lastRound = 6;
 //This boolean will turn off some functionality depending on if the sequence is being actively shown or not. 
 let shownSequence = false;
 
@@ -21,83 +22,45 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
 }
 
-//Await function used from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
-function hideButton1() {
-    //When the sequence runs after the button has been pressed this function will mostly work to remove 
-    //buttons. When the sequence has finished showing itself it will take in user inputs to check if they 
-    //remember the sequence.
-    if(shownSequence === false){
-        let button = document.getElementById("shape1");
-        button.style.visibility = "hidden";
-    }else{
-        pointCheck(1);  //Depending on the square an input will be sent to the pointCheck function to see if the user
-    }
-    console.log("GameArr: ",gameArr);
-}
 
-function hideButton2(){
-    if(shownSequence === false){
-        let button = document.getElementById("shape2");
-        button.style.visibility = "hidden";
-    }else{
-        pointCheck(2);
+function hideButtonX(buttonID){
+    console.log("Button pressed");
+    if(typeof buttonID == 'number'){
+        if(shownSequence === false){
+            let button = document.getElementById(`shapeY${buttonID}`);
+            button.style.visibility = "hidden";
+        }else{
+            pointCheck(buttonID);
+        }
     }
 }
 
-function hideButton3(){
-    if(shownSequence === false){
-        let button = document.getElementById("shape3");
-        button.style.visibility = "hidden";
-    }else{
-        pointCheck(3);
-    }
-}
-
-function hideButton4(){
-    if(shownSequence === false){
-        let button = document.getElementById("shape4");
-        button.style.visibility = "hidden";
-    }else{
-        pointCheck(4);
-    }
-}
 
 //Since document.getElementById uses a string value to find the element it is possible to use
 //a for loop to iterate through all buttons but for now I will keep it simple but implement it 
 //if there are more levels
-function showButton1(){
-    let button = document.getElementById("shape1");
-    button.style.visibility = "visible";
+function showButtonX(buttonID){
+    if(typeof buttonID == "number"){
+        let button = document.getElementById(`shapeY${buttonID}`);
+        button.style.visibility = "visible";
+    }
 }
 
-function showButton2(){
-    let button = document.getElementById("shape2");
-    button.style.visibility = "visible";
-}
-function showButton3(){
-    let button = document.getElementById("shape3");
-    button.style.visibility = "visible";
-}
-function showButton4(){
-    let button = document.getElementById("shape4");
-    button.style.visibility = "visible";
-}
+
 
 //Hides all buttons at the same time. Normally used at the beginning on the game when the sequence hasn"t been played.
 //Or before the sequence starts.
 function hideButtons(){
-    hideButton1();
-    hideButton2();
-    hideButton3();
-    hideButton4();
+    for(let i=0; i<9; i++){
+        hideButtonX(i+1);
+    }
 }
 
 //Normally used after the sequence has done showing itself ready for the user to enter their inputs
-function showButton(){
-    showButton1();
-    showButton2();
-    showButton3();
-    showButton4();
+function showButtons(){
+    for(let i=0; i<9; i++){
+        showButtonX(i+1);
+    }
 }
 
 //This randomly generates the sequence and adds it to the array
@@ -122,7 +85,7 @@ let i=0;
 
 //This starts the sequence and resets all the necessary arrays and variables.
 function startMemorySequence(){
-    document.getElementById("startBtn").disabled = true;
+    document.getElementById("startBtnL3").disabled = true;
     sequenceToMatch = [];
     //This clears all timers that may still be running.
     for (const t of activeTimeouts) clearTimeout(t);
@@ -140,28 +103,36 @@ function startMemorySequence(){
     } 
 }
 
+function resetButtonsIndex(){
+    for (let i=0; i<9;i++){
+        document.getElementById(`square-labelY${i+1}`).innerText = i+1;
+        
+    }
+}
+
 function resetButtons(){
-    for (let i=0; i<4;i++){
-        document.getElementById(`square-label${i+1}`).innerText = 0;
+    for (let i=0; i<9;i++){
+        document.getElementById(`square-labelY${i+1}`).innerText = 0;
+        document.getElementById(`shapeY${i+1}`).style.backgroundColor = colourIndex[i];
     }
 }
 
 function showEndGameModal(){
-    document.getElementById("finalScore").textContent = points;
+    document.getElementById("finalScoreL3").textContent = points;
     let percent = parseInt((points/highestScorePossible)*100);
     let percentScore = `${percent}%`;
-    document.getElementById("finalPercentScore").textContent = percentScore;
-    const endModal = new bootstrap.Modal(document.getElementById("endGameModal"));
+    document.getElementById("finalPercentScoreL3").textContent = percentScore;
+    const endModal = new bootstrap.Modal(document.getElementById("endGameModalL3"));
     endModal.show();
 }
 
 function restartGame(){
-    const modalElement = document.getElementById("endGameModal");
+    const modalElement = document.getElementById("endGameModalL3");
     const modalInstance = bootstrap.Modal.getInstance(modalElement);
     if(modalInstance){
         modalInstance.hide();
     }
-    maxInputs = 2;
+    maxInputs = 3;
     points = 0;
     updateScoreBoard();
     sequencePoints = 0;
@@ -191,7 +162,7 @@ function showButtonsPeriodically(){
                 repeatCount = 1;
             }
             // Update display number on the square
-            const squareElement = document.getElementById("square-label" + current);
+            const squareElement = document.getElementById("square-labelY" + current);
             if (squareElement) {
                 squareElement.innerText = repeatCount; // show 1, 2, 3, ...
             }
@@ -200,26 +171,61 @@ function showButtonsPeriodically(){
             //the button in relation to i (i-1 since the sequence only includes numbers 1-4 but array starts from
             //0-3). 
             if(sequenceToMatch[i-1] === 1){
-                showButton1();
-                //Changed to be iniitialised each time to ensure there aren"t repeat old timers being used.
-                const t = setTimeout(() => {hideButton1();
-                }, 2000);
+                oddOrEven(repeatCount, 1);
+                showButtonX(1);
+                //Changed to be iniitialised each time to ensure there aren't repeat old timers being used.
+                const t = setTimeout(() => {hideButtonX(1);
+                }, 1500);
                 activeTimeouts.push(t);
             }else if(sequenceToMatch[i-1] === 2){
-                showButton2();
-                const t = setTimeout(() => {hideButton2();
-                }, 2000);
+                oddOrEven(repeatCount,2);
+                showButtonX(2);
+                const t = setTimeout(() => {hideButtonX(2);
+                }, 1500);
                 activeTimeouts.push(t);
             }else if(sequenceToMatch[i-1] === 3){
-                showButton3();
-                const t = setTimeout(() => {hideButton3();
-                }, 2000);
+                oddOrEven(repeatCount,3);
+                showButtonX(3);
+                const t = setTimeout(() => {hideButtonX(3);
+                }, 1500);
                 activeTimeouts.push(t);
             }else if(sequenceToMatch[i-1] === 4){
-                showButton4();
-                const t = setTimeout(() => {hideButton4();
-                }, 2000);
+                oddOrEven(repeatCount,4);
+                showButtonX(4);
+                const t = setTimeout(() => {hideButtonX(4);
+                }, 1500);
                 activeTimeouts.push(t);
+            }else if(sequenceToMatch[i-1] === 5){
+                oddOrEven(repeatCount,5);
+                showButtonX(5);
+                const t = setTimeout(() => {hideButtonX(5);
+                }, 1500);
+                activeTimeouts.push(t);
+            }else if(sequenceToMatch[i-1] === 6){
+                oddOrEven(repeatCount,6);
+                showButtonX(6);
+                const t = setTimeout(() => {hideButtonX(6);
+                }, 1500);
+                activeTimeouts.push(t);
+            }else if(sequenceToMatch[i-1] === 7){
+                oddOrEven(repeatCount,7);
+                showButtonX(7);
+                const t = setTimeout(() => {hideButtonX(7);
+                }, 1500);
+                activeTimeouts.push(t);
+            }else if(sequenceToMatch[i-1] === 8){
+                oddOrEven(repeatCount,8);
+                showButtonX(8);
+                const t = setTimeout(() => {hideButtonX(8);
+                }, 1500);
+                activeTimeouts.push(t);
+            }else if(sequenceToMatch[i-1] === 9){
+                oddOrEven(repeatCount,9);
+                showButtonX(9);
+                const t = setTimeout(() => {hideButtonX(9);
+                }, 1500);
+                activeTimeouts.push(t);
+            
             }else{
                 console.log("Something is wrong");
             }
@@ -228,17 +234,29 @@ function showButtonsPeriodically(){
             //After sequenceToMatch has been fully gone through all buttons are shown for the user to 
             //enter what they remember
             console.log("Showing buttons");
-            showButton();
+            resetButtonsIndex();
+            showButtons();
             shownSequence = true;
             i=0;    
         }
         //document.getElementById("sequence-order").innerHTML = sequenceToMatch;
         //There"s a 2 second delay after each recursive call. It will change depending on difficulty.
-    },2000)
+    },1500)
 }
 
 function updateScoreBoard(){
-    document.getElementById("scoreBoard").value = points;
+    document.getElementById("scoreBoardL3").value = points;
+} 
+
+function oddOrEven(number, buttonID){
+    let button = document.getElementById(`shapeY${buttonID}`);
+    if(typeof number == "number"){
+        if(number %2 == 0){
+            button.style.backgroundColor = "black";
+        }else{
+            button.style.backgroundColor = colourIndex[buttonID-1];
+        }
+    }
 }
 
 //This is shown after the sequence has done being shown. It checks if the user enters the right inputs in

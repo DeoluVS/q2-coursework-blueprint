@@ -58,38 +58,16 @@ function myLoop() {         //  create a loop function
   }, 1000)
 } 
 
-
-
-for(let i=0; i<9;i++){
-  console.log(i+1);
+function showSingleButton(buttonID){
+  let button = document.getElementById(`shape${buttonID}`);
+  button.style.visibility = "hidden";
 }
 
-function hello1(){
-  console.log("Hello",1)
+function showButtons(){
+
 }
 
-function hello2(){
-  console.log("Hello",2)
+for(let i=0; i<6; i++){
+  oddOrEven(i+1);
 }
 
-function hello3(){
-  console.log("Hello",3)
-}
-function hello4(){
-  console.log("Hello",4)
-}
-function hello5(){
-  console.log("Hello",5)
-}
-function hello6(){
-  console.log("Hello",6)
-}
-function hello7(){
-  console.log("Hello",7)
-}
-function hello8(){
-  console.log("Hello",8)
-}
-function hello9(){
-  console.log("Hello",9)
-}
