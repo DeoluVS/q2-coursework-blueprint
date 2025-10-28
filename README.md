@@ -31,7 +31,7 @@ For this website, I want it to be more JavaScript heavy rather than design heavy
 
 As you can see the basic design is a hero on the landing page with an easy and visible button that should re-route the user to the level select window. When you click one of the levels it will make the user navigate to the game window where you have to click the start button and the game will start working. For any levels that haven't been completed yet, the user will be sent to the coming-soon page which should redirect the user to back to the level select screen or back to the homepage screen. 
 
-### Functions
+### Functions (Level 1-3)
 #### **`getRandomIntInclusive()`**
 ```
 function getRandomIntInclusive(min, max) {
@@ -380,4 +380,159 @@ else if (squareX !== curSquare && curSquare){
     }
 }
 ```
-When the user is wrong, it works in a similar way, however
+When the user is wrong, it works in a similar way. Instead of adding 100 points it decrements by 50 points and gets updated on the scoreboard. When the user has entered the corresponding amount of items in the sequence, the function will call the **`changeBackgroundColor()`** function and depending on how many many right or wrong buttons they selected in correspondance to the to sequence the background colour will change depending on the degree of correctness (most likely between yellow and red since you can only have a green background if you match every item in the sequence perfectly). It then calls the **`changeBackgroundColor()`** function again within a half a second delay which will change it back to white or the original colour before showing how right they are. After that the `sequencePoints, playerInputs` and `correctInputs` variables are reset to 0, the length of the sequence increments by 1 with the `maxInputs+=1` statement then the next sequence is played with the **`startMemorySequence()`** function and the buttons are reset with the **`resetButtons()`** function. 
+
+#### **`resetButtons()`**
+```
+function resetButtons(){
+    for (let i=0; i<9;i++){
+        document.getElementById(`square-labelX${i+1}`).innerText = 0;
+    }
+}
+```
+After the **`showButtonsPeriodically()`** function runs, the labels on the buttons need to be reset to ensure that there isn't any confusing overlap on how often the button shows in the sequence. To make this happen all of the buttons labels are reset to 0 right after the user has done entering the sequence they remember seeing. In level 2, the general variable naming convention for each button label is `square-labelX1, square-labelX2` each level has their own js file. For the level one button labels, the variable names are `square-babel1, square-label2` and each function will be amended to match the html files button labels. 
+
+### Function (Level 3+)
+The functions for these levels have been optimised to handle a wider range of values with less functions altogether. Here are the functions in action and I will show the different ways it's been implemented in level 3 and onwards. 
+
+#### **`hideButtonX()`**
+```
+function hideButtonX(buttonID){
+    console.log("Button pressed");
+    if(typeof buttonID == 'number'){
+        if(shownSequence === false){
+            let button = document.getElementById(`shapeY${buttonID}`);
+            button.style.visibility = "hidden";
+        }else{
+            pointCheck(buttonID);
+        }
+    }
+}
+```
+In level 1 and 2, the functions used multiple individual functions for each button. For example, button 1, 2, 3 and 4 had the functions: **`hideButton1(), hideButton2(), hideButton3(), hideButton4()`**. In level 3 onwards, the function that handles hiding the buttons is now **`hideButtonX()`** which instead of having each button have a matching function, every button will be hidden by one function. In the .html file the **`onclick`** event stores the function **`hideButtonX(1)`** for button 1 which significantly reduces the redundant code needed to work for a specific button. The function works exactly the same as the original **`hideButton1()`** function but now there are `template literals` that match the specific variable to the button clicked. For example, to get button 1, the code uses the `buttonID` variable to add 1 to the string making it `shapeY1`, when the code is in action. 
+
+#### **`showButtonX()`**
+```
+function showButtonX(buttonID){
+    if(typeof buttonID == "number"){
+        let button = document.getElementById(`shapeY${buttonID}`);
+        button.style.visibility = "visible";
+    }
+}
+```
+Similar to **`hideButtonX()`**, it uses `template literals` to make a string more in line with the chosen button. When the code is trying to show button 1, the code sends the chosen button through the parameter instead. For example, **`showButtonX(1)`** will make button 1 appear. Both **`hideButton()`** and **`showButton()`** are all replaced by **`hideButtonX(buttonID)`** and **`showButtonX(buttonID)`** in every function (especially in the **`showButtonPeriodically()`** function) that needs to hide or show buttons. 
+
+#### **`hideButtons()`**
+```
+function hideButtons(){
+    for(let i=0; i<numberOfSquares; i++){
+        hideButtonX(i+1);
+    }
+}
+```
+In the old **`hideButtons()`** function I called all of the **`hideButton1(), hideButton2(), hideButton3(), hideButton4()`** functions in this function, but to make it a little easier I used a for loop instead which just uses the index `i` in the parameter to call each function. `i+1` is there just to ensure that buttons 1-9 are called since there is no button 0. Using the `numberOfSquares` variable as the condition instead of a number just makes it easier to change the amount of squares in the global variable at the beginning of the code. 
+
+#### **`showButtons()`**
+```
+function showButtons(){
+    for(let i=0; i<numberOfSquares; i++){
+        showButtonX(i+1);
+    }
+}
+```
+This function shows every button in the level using the new **`showButtonX(buttonID)`** function and looping through using `numberOfSqaures` as the condition. For level 3, it means it will loop through 9 times and show 9 buttons altogether. 
+
+#### **`oddOrEven(number, buttonID)`**
+```
+function oddOrEven(number, buttonID){
+    let button = document.getElementById(`shapeY${buttonID}`);
+    if(typeof number == "number"){
+        if(number %2 == 0){
+            button.style.backgroundColor = "black";
+        }else{
+            button.style.backgroundColor = colourIndex[buttonID-1];
+        }
+    }
+}
+```
+This is a new function that adds the new level of difficulty to the game. Instead of indicating repeat items in a sequence with a button label, the button instead alternates between its original colour and black. For example, if the sequence is 52224, the the user will see button 5, button 2 with the orange colour, then button 2 will look black then the next time the button will show orange again. This is done by getting the current `repeatCount` variable and depending on if the variable is divisble by 2 or not it will show black, if it has been shown an odd number of times then it will show the button in its original colour. The colours are stored in the array `colourIndex` which has all the colour string values for each square. To get the specific colour you just have to use `buttonID-1`, since the array starts from 0 instead of 1, to match with the right colour.
+#### **`oddOrEven(number, buttonID)`** Level 4
+```
+function oddOrEven(number, buttonID){
+    let button = document.getElementById(`shapeZ${buttonID}`);
+    if(typeof number == "number"){
+        if(number %2 == 0){
+            button.style.backgroundColor = "black";
+        }else{
+            button.style.backgroundColor = "rgb(0, 0, 255)";
+        }
+    }
+}
+```
+For level 4, all of the squares are the same colour to up the difficulty even higher and instead of changing back to a colour in the `colourIndex` array, every colour in the level are the same colour so instead it changes back to blue. 
+
+#### **`showButtonsPeriodically()`**
+```
+if(sequenceToMatch[i-1] === 1){
+    oddOrEven(repeatCount, 1);
+    showButtonX(1);
+    const t = setTimeout(() => {hideButtonX(1);
+    }, 1500);
+    activeTimeouts.push(t);
+}else if(sequenceToMatch[i-1] === 2){
+    oddOrEven(repeatCount,2);
+    showButtonX(2);
+    const t = setTimeout(() => {hideButtonX(2);
+    }, 1500);
+    activeTimeouts.push(t);
+}else if(sequenceToMatch[i-1] === 3){
+    oddOrEven(repeatCount,3);
+    showButtonX(3);
+    const t = setTimeout(() => {hideButtonX(3);
+    }, 1500);
+    activeTimeouts.push(t);
+}else if(sequenceToMatch[i-1] === 4){
+    oddOrEven(repeatCount,4);
+    showButtonX(4);
+    const t = setTimeout(() => {hideButtonX(4);
+    }, 1500);
+    activeTimeouts.push(t);
+}else if(sequenceToMatch[i-1] === 5){
+    oddOrEven(repeatCount,5);
+    showButtonX(5);
+    const t = setTimeout(() => {hideButtonX(5);
+    }, 1500);
+    activeTimeouts.push(t);
+}else if(sequenceToMatch[i-1] === 6){
+    oddOrEven(repeatCount,6);
+    showButtonX(6);
+    const t = setTimeout(() => {hideButtonX(6);
+    }, 1500);
+    activeTimeouts.push(t);
+}else if(sequenceToMatch[i-1] === 7){
+    oddOrEven(repeatCount,7);
+    showButtonX(7);
+    const t = setTimeout(() => {hideButtonX(7);
+    }, 1500);
+    activeTimeouts.push(t);
+}else if(sequenceToMatch[i-1] === 8){
+    oddOrEven(repeatCount,8);
+    showButtonX(8);
+    const t = setTimeout(() => {hideButtonX(8);
+    }, 1500);
+    activeTimeouts.push(t);
+}else if(sequenceToMatch[i-1] === 9){
+    oddOrEven(repeatCount,9);
+    showButtonX(9);
+    const t = setTimeout(() => {hideButtonX(9);
+    }, 1500);
+    activeTimeouts.push(t);
+
+}else{
+    console.log("Something is wrong");
+}
+showButtonsPeriodically();
+```
+The main difference this time around is that each loop has 500ms less time between each item in the sequence. For level 3, the time difference between showing each item is now 1.5s instead of the 2 seconds from level 1 and level 2 and Level 4 has an interval of 1s It will cap out at 0.5s since that is already hard enough and showing it for 0s won't be visible to the user. The **`oddOrEven()`** function will be called when it passes the `elif` or `if` statements using the `repeatCount variable`. Similar to the previous iteration of this function, the code checks what the current item in the sequence is and calls **`oddOrEven(repeatCount, x)`** with `x` being the current item in the sequence. It then shows `buttonX` using the **`showButtonX(x)`** function and hides the button after 1.5s and then does a recursive call to check if there is another item in the sequence. 
+
+

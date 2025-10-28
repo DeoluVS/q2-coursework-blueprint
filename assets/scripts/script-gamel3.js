@@ -51,14 +51,14 @@ function showButtonX(buttonID){
 //Hides all buttons at the same time. Normally used at the beginning on the game when the sequence hasn"t been played.
 //Or before the sequence starts.
 function hideButtons(){
-    for(let i=0; i<9; i++){
+    for(let i=0; i<numberOfSquares; i++){
         hideButtonX(i+1);
     }
 }
 
 //Normally used after the sequence has done showing itself ready for the user to enter their inputs
 function showButtons(){
-    for(let i=0; i<9; i++){
+    for(let i=0; i<numberOfSquares; i++){
         showButtonX(i+1);
     }
 }
@@ -234,7 +234,7 @@ function showButtonsPeriodically(){
             //After sequenceToMatch has been fully gone through all buttons are shown for the user to 
             //enter what they remember
             console.log("Showing buttons");
-            resetButtonsIndex();
+            
             showButtons();
             shownSequence = true;
             i=0;    
