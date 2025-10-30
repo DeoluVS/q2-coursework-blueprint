@@ -3,14 +3,32 @@
 ## About the Game 
 This game was inspired by the Human Benchmark game where you have a sequence of squares appear on the screen and you have to follow the pattern in order to get points. The more you get correct the more points you acrue over time. This game is to test your memory and eventually it will test your cognitive functions, such as reaction time to gauge where you are at personally. This game is designed in a way where any age group could play it to work on their ability to retain information and replay it. Also, sometimes these memory test can be seen during the pre-screening phase of a graduate role in IT. They will use a series of games and test your ability to retain information and use it to progress through the game. However, for this instance, the memory game will be the main focus of this website. 
 
-## Strategy
-### Goals
-- One of the goals for this project is to challenge the user's capability to remember the sequence.
+## UX
+### Project Goals
+- Challenge the user's capability to remember random sequence.
 - Create a game that has an increasing level of difficulty for each round the user passes.
 - Create multiple levels that increase in dimensions of squares the user has to play.
 - Create easy navigation for the user to move around the website.
 - Create 3 levels ranging from a 2x2 grid to a 4x4 grid.
 - Making the game difficulty at a manageable level, making it more accesible to more players.
+
+#### Player Goals 
+The intended audience for the game is for anyone who wants to assess their cognitive abilities. One target audience might also be job seekers looking for a role in IT as some companies require you to do an IQ test or a series of activities and questionnaires to assess if you're a right fit for the company. Being able to retain and reproduce information is one of the more important things to work on and it's the one game type that I tend to practice that game mode the most. It mainly targets short term memory as you need to look at a sequence and replay the same order of inputs as shown to the user. 
+
+From applying for many different graduate IT roles, one of the common games was something in relation to short term memory or working with information and using it. Since, it is relevant to me it can be relevant to other graduate students or prospective interns looking for work in the IT industry. 
+
+The player goals are:
+- Fun games that can challenge their memory
+- Games that can challenge their problem solving abilities
+- Games that can challenge how good their short term memory is to replay the sequence they saw
+- Easy to read buttons 
+- Clear indication of how well the user is doing 
+
+The developer goals are:
+- Adequately increase the difficulty on each level
+- Make the increase in difficulty gradual and not too difficult
+- Ensure that the website is easy to navigate
+- 
 
 ### Research
 From looking at other memory games, I had noticed a lot of different functionalities that seemed interesting. One of the more notable examples was Human Benchmark. One of the more interesting things that they had in their game was a way to build on their previous sequence and keep adding one more item to the sequence the user started with. They also added some audio cues to help the user remember which block to press. 
@@ -19,10 +37,6 @@ From looking at other memory games, I had noticed a lot of different functionali
 
 The game starts with flashing one square and the game starts to create a longer sequence building off of the previous squares the user can remember. I like this idea but I will take my own spin on it by making each square a different colour and indicate a duplicate square in the series by placing a number on each square indicating that. Instead of having just one continuous level, I will have multiple levels with different grid matrixes from 2x2 to 4x4 with a cap on the increasing difficulty. 
 
-### Target Audience
-The intended audience for the game is for anyone who wants to assess their cognitive abilities. One target audience might also be job seekers looking for a role in IT as some companies require you to do an IQ test or a series of activities and questionnaires to assess if you're a right fit for the company. Being able to retain and reproduce information is one of the more important things to work on and it's the one game type that I tend to practice that game mode the most. It mainly targets short term memory as you need to look at a sequence and replay the same order of inputs as shown to the user. 
-
-I noticed that when I was applying for many different graduate IT roles, one of the common games was something in relation to short term memory or working with information and using it. Since, it is relevant to me it can be relevant to other graduate students or prospective interns looking for work in the IT industry. 
 
 ### Wireframes
 For this website, I want it to be more JavaScript heavy rather than design heavy so one of the things I will work towards is just using a simplistic design but still doing the best I can to make it pass all the validator pass checks. This game is more geared towards the mobile view but it can be played on desktop, mobiles and tablets. Here is the mobile view of the wireframe:
@@ -31,6 +45,8 @@ For this website, I want it to be more JavaScript heavy rather than design heavy
 
 As you can see the basic design is a hero on the landing page with an easy and visible button that should re-route the user to the level select window. When you click one of the levels it will make the user navigate to the game window where you have to click the start button and the game will start working. For any levels that haven't been completed yet, the user will be sent to the coming-soon page which should redirect the user to back to the level select screen or back to the homepage screen. 
 
+## Features
+In the features section I will explain what I have implemented into the game and how the features interact with each other to make the game work. In the functions section there are small differences between how the functions work to make the game run as well as small optimisations for things that require alot more data and individual conditions as the complexity increases.
 ### Functions (Level 1-3)
 #### **`getRandomIntInclusive()`**
 ```
@@ -254,7 +270,9 @@ if (squareElement) {
 }
 ```
 The code above checks whether there are repeat numbers in the sequence and indicates it on the buttons. For example, if the sequence is: 43331. The code would increment the `repeatCount` number on the buttons on each iteration so the user can actively see where it repeats in the sequence. This is done by checking the current and previous item in the list. So once the sequence is over you could see something like the diagram below:
+
 ![Game Box](assets/images/game-box-repcount-demo.png)
+
 As you can see, the numbers on the squares all display the repeat values on the buttons and would function exactly the same in the real game. It would use the `square-labelX` x being the current number in the sequence for example, if it is **`sequenceToMatch[1]`** and **`sequenceToMatch[2]`** and both are equal to 3, the repeatCount (which equals 2) would be attacked to **`#square-label2`**. 
 
 ```
@@ -292,9 +310,11 @@ function updateScoreBoard(){
 }
 ```
 This update the score on the front end and increments or decrements on each correct choice the user makes. This function is used in the **`pointCheck()`** function which will be explained later. But when the user gets something right they get 100 points.
+
 ![Score Increase](assets/images/positive-points.png)
 
 When the user chooses the wrong button in the sequence they get -50 points. 
+
 ![Score Decrease](assets/images/negative-points.png)
 
 #### **`pointCheck(square)`**
@@ -391,6 +411,40 @@ function resetButtons(){
 }
 ```
 After the **`showButtonsPeriodically()`** function runs, the labels on the buttons need to be reset to ensure that there isn't any confusing overlap on how often the button shows in the sequence. To make this happen all of the buttons labels are reset to 0 right after the user has done entering the sequence they remember seeing. In level 2, the general variable naming convention for each button label is `square-labelX1, square-labelX2` each level has their own js file. For the level one button labels, the variable names are `square-babel1, square-label2` and each function will be amended to match the html files button labels. 
+
+#### **`changeBackgroundColor(levelOfAccuracy)`**
+```
+function changeBackgroundColor(levelOfAccuracy){
+    const maxPointsPossible = maxInputs * 100;
+    if(typeof levelOfAccuracy == "number"){
+        if(levelOfAccuracy === 1000000){
+            document.body.style.backgroundColor = "white";
+        }else if(levelOfAccuracy === maxPointsPossible){
+            document.body.style.backgroundColor = "#2bd42f"
+        }else if(levelOfAccuracy < maxPointsPossible && levelOfAccuracy >= (maxPointsPossible*0.75)){
+            document.body.style.backgroundColor = "#d5e41b";
+        }else if(levelOfAccuracy < (maxPointsPossible *0.75) && levelOfAccuracy >= (maxPointsPossible*0.5)){
+            document.body.style.backgroundColor = "#f1990e";
+        }else if(levelOfAccuracy < (maxPointsPossible * 0.5) && levelOfAccuracy >= (maxPointsPossible*0.25)){
+            document.body.style.backgroundColor = "#ff6000";
+        }else if(levelOfAccuracy < (maxPointsPossible *0.25)){
+            document.body.style.backgroundColor = "#ff1300";
+        }else{
+            console.log("No colours left");
+        } 
+    }else{
+        console.log("Invalid levelOfAccuracy: ", levelOfAccuracy);
+    }
+}
+```
+This function indicate to the user how well they matched to the sequence by making the screen flash a certain colour. The value that gets passed through the parameter is `sequencePoints` which is the amount of points the user got for the most recent sequence. The `maxPointsPossible` variable is the maximum amount of points the user could achieve for that round which uses `maxInputs` which is the amount of items in the sequence, which is multiplied by 100 which is the points you get for each right choice. For example, if there are 3 items in the sequence, `maxPointsPossible` is set to `3 * 100` so the max points the user could achieve is **300** points for that round. Now depending on the level of accuracy the user will get the following:
+- Green for 100% correctness
+- Yellow for 75% correctness
+- Orange for 50% correctness
+- Red/Orange for 25% correctness
+- Red for anything less than 25%
+
+It works in tandem with the **`pointCheck(square)`** function to indicate to the user their level of correctness. 
 
 ### Function (Level 3+)
 The functions for these levels have been optimised to handle a wider range of values with less functions altogether. Here are the functions in action and I will show the different ways it's been implemented in level 3 and onwards. 
@@ -535,4 +589,84 @@ showButtonsPeriodically();
 ```
 The main difference this time around is that each loop has 500ms less time between each item in the sequence. For level 3, the time difference between showing each item is now 1.5s instead of the 2 seconds from level 1 and level 2 and Level 4 has an interval of 1s It will cap out at 0.5s since that is already hard enough and showing it for 0s won't be visible to the user. The **`oddOrEven()`** function will be called when it passes the `elif` or `if` statements using the `repeatCount variable`. Similar to the previous iteration of this function, the code checks what the current item in the sequence is and calls **`oddOrEven(repeatCount, x)`** with `x` being the current item in the sequence. It then shows `buttonX` using the **`showButtonX(x)`** function and hides the button after 1.5s and then does a recursive call to check if there is another item in the sequence. 
 
+### Features left to implement 
+Initially, I wanted to create another game mode that would be able to test the user's reaction time and if I wanted to adapt this game into a long term more fully fleshed project I would consider delving deeper into other game modes that could really test the user's cognitive abilities. An example would be games that test the user's IQ such as the fox, the hen and the worm problem which is more niche game modes that could come up in the initial tests used to test prospective candidates for IT roles. Here's how the game mode works:
+- There are 3 creatures: The fox, the hen and the worm
+- If the fox is left with the hen then the fox will eat the hen
+- If the hen is left with the worm then hen will eat the worm
+- The fisherman has to bring them across the river
+- The faster the user can get all three of them across the river the better. 
 
+Another game mode that I would consider would be another example of pattern recognition. It would be a game where you press an input in correspondence to the desired input from the game. It is like a reaction time game but you have to respond to the right stimulus. Here's how it works:
+- A simple math problem will appear on the screen.
+- There are floating answers that appear on the screen.
+- The user must choose the corresponding answer to the math problem.
+- The faster the user chooses the right corresponding answer, the more points they get. 
+- Wrong answers affect their score. 
+
+The reaction time game work like this:
+- The user will click a button to indicate that they are ready
+- When the screen changes the user has to click a button or mouse as soon as they see the stimulus
+- The faster the reaction the better the score
+- The score will be measured in miliseconds and will be compared on a graph on how good they are in comparison to the average reaction time at their age. 
+
+If I were to make this a fully fleshed out project I would make this to be an accessible way for graduate students in IT and people wanting to work a role in IT for those applications that require pre-testing before they can get into the interview stage. 
+
+## Testing 
+When testing the product I had a number of ways to fully explore the functionality of the website. 
+- Manual Testing 
+- Stakeholder testing 
+
+### Manual Testing 
+When assessing how effective the game was at doing its main purpose of creating sequences I assessed the following:
+
+#### Sequence matching the user input
+I tested whether the inputs match the sequence so I would play a round and ensure that the game acknowledges the degree of correctness of the user. I did this by indicating to the user how correct they are whenever they entered the corresponding amount of inputs and made the background colour change. The function that made it work is [here](#changebackgroundcolorlevelofaccuracy) 
+
+#### Checking timers
+One thing that I was testing was to make sure that the sequences keep to the right array for each round. Initially, there was an error where the last value of an array stays in `gameArr` array, which is the testing array, as well as the `sequenceToMatch` array and despite all items being cleared it still remained after. The reason why is the way the timers were initialised were not creating new ones, so old timers were still active and messed with a value being removed from `sequenceToMatch` array and `gameArr`. The way to fix it is to clear timers after each round and initialise each timer as `const t` or whatever variable name. This makes individual timers rather than reusing old ones and finally cleared by using this:
+```
+for (const t of activeTimeouts) clearTimeout(t);
+activeTimeouts = [];
+```
+Since each timer is pushed onto the `activeTimeouts` array it makes it easier to clear the old timers with the for loop and then to re-assign `activeTimeouts` as an empty array. 
+
+#### Redirect from coming-soon.html file
+A feature I wanted to add to the website is some form of redirect whenever the user is on a webpage that they shouldn't stay too long on. The way it was implemented is in the [redirector.js](/assets/scripts/redirector.js) file. The initial problem was that everything did work in testing but it failed in the deployment phase. So, as a solution I made some ternary statements that allow for both testing and deployment builds to work by checking if the build being used includes a subdirectory for the deployment build. If not then it just includes the normal subdirectories attached to whatever local url that is used to run it. 
+```
+const basePath = window.location.pathname.includes("/q2-coursework-blueprint")
+    ? "/q2-coursework-blueprint" : "";
+
+const VALID_PATHS = [
+    `${basePath}/`, 
+    `${basePath}/index.html`, 
+    `${basePath}/level1.html`, 
+    `${basePath}/level2.html`,
+    `${basePath}/level3.html`, 
+    `${basePath}/level-select.html`, 
+    `${basePath}/coming-soon.html`
+];
+```
+The first line creates the basePath and depending on if the code is using the deployment build (which uses the `/q2-coursework-blueprint` subdirectory) it will include it or won't include it if it's run locally and not in the deployment phase.
+
+If in deployment, it creates `basePath = "/q2-coursework-blueprint/index.html"` for the `index.html` file.  
+
+### Stakeholder Testing
+I also let stakeholders who may be interested in the product test it out and give feedback for any additional functionality I could include to make the website more appealing. Here are a few things that was tested and amended to make the game better:
+
+#### Game start
+One of things that happened was when the user clicked on the `start` button to start the sequence and display what the user should remember. The stakeholder noticed that the game was able to create multiple sequences staked on top of each when they repeatedly clicked on the start button. It then made it near impossible to know what sequence to follow in order to get points. To amend this problem, I disabled the start button once the user had started the sequence. This ensures that the user can't repeatedly click on the button. The start button that starts the sequence remains disabled for the duration of the game. 
+
+#### Repeat label
+One of the things the user had brought up to me was the fact that the program was able to update the repeat items in a sequence but it did clear each round. For example, if in round 1 the sequence was **1334**, square 3 would have a number **2** as the label as 3 showed up twice in the sequence. If the next sequence is **33121**, then previously the labels on all squares that didn't reappear in the sequence would still remain despite that fact. So instead, I created the function:
+```
+function resetButtons(){
+    for (let i=0; i<9;i++){
+        document.getElementById(`square-labelX${i+1}`).innerText = 0;
+    }
+}
+```
+This function resets all the button labels to 0 to ensure that there aren't any left over labels from previous rounds that didn't show up in the current sequence, and potentially confuse the user. All buttons labels and button colours are reset after the round is finished. 
+
+#### Progress indicator
+The stakeholder caught an issue that they weren't aware of how well they were doing aside from the screen changing colour whenever all inputs match the sequence. So, instead I added a score board underneath the game box to indicate a correct response. If the user chooses the right item in the sequence, then they get 100 points but if they choose the wrong button the they lose 50 points. This was resolved in the **`pointCheck()`** function. Click [pointCheck()](#pointchecksquare) here.
