@@ -1,7 +1,9 @@
 /**
  * Create a function that randomly picks a meal from an array
  */
-//This a function that gets a random number between min and max including max and min 
+/*jshint esversion: 6 */
+/* global bootstrap */
+//This a function that gets a random number between min and max including max and min
 function getRandomIntInclusive(min, max) {
     const minCeiled = Math.ceil(min);
     const maxFloored = Math.floor(max);

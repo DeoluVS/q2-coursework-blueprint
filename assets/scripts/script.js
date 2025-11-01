@@ -1,6 +1,8 @@
 /**
  * Return a welcome message from a teacher to a student
  */
+/*jshint esversion: 6 */
+/* global bootstrap */
 function welcomeMessage(studentFirstName, teacherName){
     let message = `Hello ${studentFirstName}!!\nWelcome to the new school year!!!\nYour teacher,\n${teacherName}`;
     return message;

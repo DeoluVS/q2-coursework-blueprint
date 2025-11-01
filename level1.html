@@ -12,50 +12,50 @@
     <script src="assets/scripts/script-game.js"></script>
 </head>
 <body>
-    <div class="container"> 
-        <header class="d-flex flex-column justify-content-center align-items-center py-3 mb-4 border-bottom"> 
-            <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"> 
+    <div class="container">
+        <header class="d-flex flex-column justify-content-center align-items-center py-3 mb-4 border-bottom">
+            <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <span class="fs-4">
                     Memory Bank
-                </span> 
-            </a> 
-            <ul class="nav nav-pills"> 
+                </span>
+            </a>
+            <ul class="nav nav-pills">
                 <li class="nav-item">
                     <a href="index.html" class="nav-link active" aria-current="page">
                         Home
                     </a>
-                </li> 
+                </li>
                 <li class="nav-item">
                     <a href="level-select.html" class="nav-link">
                         Games
                     </a>
-                </li>   
-            </ul> 
-        </header> 
+                </li>
+            </ul>
+        </header>
     </div>
     <main>
         <div>
             <h1 class="title-level">Level 1</h1>
             <div class="game-box">
                 <div id="shapes">
-                    <div class="button-box">
+                    <div class="button-box1">
                         <button class="square" id="shape1" onclick="hideButton1()">
-                            <h1 id="square-label1">0</h1>
+                            <span class="heading-style-h1" id="square-label1">0</span>
                         </button>
                     </div>
-                    <div class="button-box">
+                    <div class="button-box1">
                         <button class="square" id="shape2" onclick="hideButton2()">
-                            <h1 id="square-label2">0</h1>
+                            <span class="heading-style-h1" id="square-label2">0</span>
                         </button>
                     </div>
-                    <div class="button-box">
+                    <div class="button-box1">
                         <button class="square" id="shape3" onclick="hideButton3()">
-                            <h1 id="square-label3">0</h1>
+                            <span class="heading-style-h1" id="square-label3">0</span>
                         </button>
                     </div>
-                    <div class="button-box">
+                    <div class="button-box1">
                         <button class="square" id="shape4" onclick="hideButton4()">
-                            <h1 id="square-label4">0</h1>
+                            <span class="heading-style-h1" id="square-label4">0</span>
                         </button>
                     </div>
                 </div>
@@ -66,9 +66,9 @@
             <button type="button" id="startBtn" class="btn btn-primary btn-lg px-4 gap-3" onclick="startMemorySequence()">
                 Start
             </button>
-            
+
         </div>
-        
+
         <!-- Hidden modal overlay -->
         <div class="modal fade" id="endGameModal" tabindex="-1" aria-labelledby="endGameModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">

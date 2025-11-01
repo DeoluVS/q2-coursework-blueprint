@@ -12,26 +12,26 @@
     <script src="assets/scripts/script-gamel3.js"></script>
 </head>
 <body>
-    <div class="container"> 
-        <header class="d-flex flex-column justify-content-center align-items-center py-3 mb-4 border-bottom"> 
-            <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"> 
+    <div class="container">
+        <header class="d-flex flex-column justify-content-center align-items-center py-3 mb-4 border-bottom">
+            <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <span class="fs-4">
                     Memory Bank
-                </span> 
-            </a> 
-            <ul class="nav nav-pills"> 
+                </span>
+            </a>
+            <ul class="nav nav-pills">
                 <li class="nav-item">
                     <a href="index.html" class="nav-link active" aria-current="page">
                         Home
                     </a>
-                </li> 
+                </li>
                 <li class="nav-item">
                     <a href="level-select.html" class="nav-link">
                         Games
                     </a>
-                </li>   
-            </ul> 
-        </header> 
+                </li>
+            </ul>
+        </header>
     </div>
     <main>
         <div>
@@ -40,59 +40,56 @@
                 <div id="shapesL3">
                     <div class="button-box">
                         <button class="squareL3" id="shapeY1" onclick="hideButtonX(1)">
-                            <h1 id="square-labelY1" class="squareLabels">0</h1>
+                            <span class = "heading-style-h1 squareLabels" id="square-labelY1"> </span>
                         </button>
                     </div>
                     <div class="button-box">
                         <button class="squareL3" id="shapeY2" onclick="hideButtonX(2)">
-                            <h1 id="square-labelY2" class="squareLabels">0</h1>
+                            <span class = "heading-style-h1 squareLabels" id="square-labelY2"> </span>
                         </button>
                     </div>
                     <div class="button-box">
                         <button class="squareL3" id="shapeY3" onclick="hideButtonX(3)">
-                            <h1 id="square-labelY3" class="squareLabels">0</h1>
+                            <span class = "heading-style-h1 squareLabels" id="square-labelY3"> </span>
                         </button>
                     </div>
                     <div class="button-box">
                         <button class="squareL3" id="shapeY4" onclick="hideButtonX(4)">
-                            <h1 id="square-labelY4" class="squareLabels">0</h1>
+                            <span class = "heading-style-h1 squareLabels" id="square-labelY4"> </span>
                         </button>
                     </div>
                     <div class="button-box">
                         <button class="squareL3" id="shapeY5" onclick="hideButtonX(5)">
-                            <h1 id="square-labelY5" class="squareLabels">0</h1>
+                            <span class = "heading-style-h1 squareLabels" id="square-labelY5"> </span>
                         </button>
                     </div>
                     <div class="button-box">
                         <button class="squareL3" id="shapeY6" onclick="hideButtonX(6)">
-                            <h1 id="square-labelY6" class="squareLabels">0</h1>
+                            <span class = "heading-style-h1 squareLabels" id="square-labelY6"> </span>
                         </button>
                     </div>
                     <div class="button-box">
                         <button class="squareL3" id="shapeY7" onclick="hideButtonX(7)">
-                            <h1 id="square-labelY7" class="squareLabels">0</h1>
+                            <span class = "heading-style-h1 squareLabels" id="square-labelY7"> </span>
                         </button>
                     </div>
                     <div class="button-box">
                         <button class="squareL3" id="shapeY8" onclick="hideButtonX(8)">
-                            <h1 id="square-labelY8" class="squareLabels">0</h1>
+                            <span class = "heading-style-h1 squareLabels" id="square-labelY8"> </span>
                         </button>
                     </div>
-                    <div class="button-box"> 
+                    <div class="button-box">
                         <button class="squareL3" id="shapeY9" onclick="hideButtonX(9)">
-                            <h1 id="square-labelY9" class="squareLabels">0</h1>
+                            <span class = "heading-style-h1 squareLabels" id="square-labelY9"> </span>
                         </button>
                     </div>
                 </div>
                 <br>
                 <input id="scoreBoardL3" class="form-control form-control-lg" type="text" aria-label=".form-control-lg example" value="0" readonly>
             </div>
-            </div>
             <br>
             <br>
             <!--Going to comment out sequence display or repurpose for point score-->
-            <h1 class = "sequece-display" id="sequence-order"></h1>
-            <h1 class = "sequece-display" id="check-array"></h1>
             <button type="button" id="startBtnL3" class="btn btn-primary btn-lg px-4 gap-3" onclick="startMemorySequence()">
                 Start
             </button>

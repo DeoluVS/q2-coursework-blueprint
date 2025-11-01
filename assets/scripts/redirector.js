@@ -1,4 +1,6 @@
 //redirector.js
+/*jshint esversion: 6 */
+/* global bootstrap */
 document.addEventListener("DOMContentLoaded", ()=>{
     //Redirector.js ensures that redirects work for .
     //Deployment: "/q2-coursework-blueprint/index.html" Testing: /index.html
@@ -8,14 +10,14 @@ document.addEventListener("DOMContentLoaded", ()=>{
     ? "/q2-coursework-blueprint" : "";
 
     const VALID_PATHS = [
-        `${basePath}/`, 
-        `${basePath}/index.html`, 
-        `${basePath}/level1.html`, 
+        `${basePath}/`,
+        `${basePath}/index.html`,
+        `${basePath}/level1.html`,
         `${basePath}/level2.html`,
-        `${basePath}/level3.html`, 
-        `${basePath}/level-select.html`, 
+        `${basePath}/level3.html`,
+        `${basePath}/level-select.html`,
         `${basePath}/coming-soon.html`
-    ];    
+    ];
     const currentPath = window.location.pathname;
 
     const isKnown = VALID_PATHS.includes(currentPath);
