@@ -14,6 +14,7 @@ let correctInputs = 0;
 let maxInputs = 3;
 let repeatCount = 1;
 let sequencePoints = 0;
+let sequenceSpeed = 2000;
 const HIGHEST_SCORE_POSSIBLE = (3*100)+(4*100)+(5*100)+(6*100);
 const numberOfSquares = 16;
 //level 1 should have 4 max rounds just to ease the user in
@@ -79,12 +80,20 @@ function showButtons(){
     }
 }
 
+function increaseSpeed(){
+    let timeDelay = (roundID % 3 == 0) ? -250 : 0;
+    if(sequenceSpeed > 1000){
+        sequenceSpeed += timeDelay;
+    }
+
+}
+
 //This randomly generates the sequence and adds it to the array
 function generateSequence(){
     for (let i = 0; i < maxInputs; i++){
         sequenceToMatch.push(getRandomIntInclusive(1,numberOfSquares));
     }
-    copyOfSequence = sequenceToMatch;
+    copyOfSequence = [...sequenceToMatch];
     console.log("Copy Of Sequence: ",copyOfSequence);
     console.log("Sequence To Match: ",sequenceToMatch);
 }
@@ -115,7 +124,8 @@ function startMemorySequence(){
     shownSequence = false;
     i=0;
   	repeatCount = 1;
-    if(maxInputs <= lastRound){
+    increaseSpeed();
+    if(lives>0){
         hideButtons();
         generateSequence();
         showButtonsPeriodically();
@@ -204,61 +214,12 @@ function showButtonsPeriodically(){
             //the button in relation to i (i-1 since the sequence only
             //  includes numbers 1-4 but array starts from
             //0-3).
-            if(sequenceToMatch[i-1] === 1){
-                oddOrEven(repeatCount, 1);
-                showButtonX(1);
-                //Changed to be iniitialised each time to ensure there
-                // aren't repeat old timers being used.
-                const t = setTimeout(() => {hideButtonX(1);
-                }, 1000);
-                activeTimeouts.push(t);
-            }else if(sequenceToMatch[i-1] === 2){
-                oddOrEven(repeatCount,2);
-                showButtonX(2);
-                const t = setTimeout(() => {hideButtonX(2);
-                }, 1000);
-                activeTimeouts.push(t);
-            }else if(sequenceToMatch[i-1] === 3){
-                oddOrEven(repeatCount,3);
-                showButtonX(3);
-                const t = setTimeout(() => {hideButtonX(3);
-                }, 1000);
-                activeTimeouts.push(t);
-            }else if(sequenceToMatch[i-1] === 4){
-                oddOrEven(repeatCount,4);
-                showButtonX(4);
-                const t = setTimeout(() => {hideButtonX(4);
-                }, 1000);
-                activeTimeouts.push(t);
-            }else if(sequenceToMatch[i-1] === 5){
-                oddOrEven(repeatCount,5);
-                showButtonX(5);
-                const t = setTimeout(() => {hideButtonX(5);
-                }, 1000);
-                activeTimeouts.push(t);
-            }else if(sequenceToMatch[i-1] === 6){
-                oddOrEven(repeatCount,6);
-                showButtonX(6);
-                const t = setTimeout(() => {hideButtonX(6);
-                }, 1000);
-                activeTimeouts.push(t);
-            }else if(sequenceToMatch[i-1] === 7){
-                oddOrEven(repeatCount,7);
-                showButtonX(7);
-                const t = setTimeout(() => {hideButtonX(7);
-                }, 1000);
-                activeTimeouts.push(t);
-            }else if(sequenceToMatch[i-1] === 8){
-                oddOrEven(repeatCount,8);
-                showButtonX(8);
-                const t = setTimeout(() => {hideButtonX(8);
-                }, 1000);
-                activeTimeouts.push(t);
-            }else if(sequenceToMatch[i-1] === 9){
-                oddOrEven(repeatCount,9);
-                showButtonX(9);
-                const t = setTimeout(() => {hideButtonX(9);
-                }, 1000);
+
+            if(typeof sequenceToMatch[i-1] == "number" && sequenceToMatch[i-1] <= numberOfSquares){
+                oddOrEven(repeatCount,current);
+                showButtonX(current);
+                const t = setTimeout(() => {hideButtonX(current);
+                }, sequenceSpeed);
                 activeTimeouts.push(t);
 
             }else{
@@ -279,7 +240,13 @@ function showButtonsPeriodically(){
         // = sequenceToMatch;
         //There"s a 2 second delay after each recursive call.
         //  It will change depending on difficulty.
-    },1000);
+    },sequenceSpeed);
+}
+
+function loseLife(){
+    console.log("Lost life function called");
+    document.getElementById(`live${lives}`).style.visibility = "hidden";
+    lives-=1;
 }
 
 function updateScoreBoard(){
@@ -306,85 +273,49 @@ function pointCheck(squareX){
     //Eventually shift() will empty the array fully.
     let curSquare = sequenceToMatch.shift();
     //If curSquare is the same as the first value
-    if(squareX === curSquare && curSquare){
-        //100 points for the correct input and -50 for anything wrong
-        points = points + 100;
-        sequencePoints+=100;
-        updateScoreBoard();
-        //playerInputs checks if the user has chosen the same
-        //  amount of inputs as the sequenceToMatch initial length (4),
-        //and gets incremented by 1 each time the user inputs something.
-        playerInputs+=1;
-        correctInputs+=1;
-        //4 will be replaced by a variable to make it easier to
-        //  increase difficulty
-        if(playerInputs === maxInputs){
-            //Depending on how many inputs the user got correct
-            //  a value will be passed into changeBackgroundColor()
-            changeBackgroundColor(sequencePoints);
-            //There will be a mini delay for when the background
-            // colour changes back to normal
-            setTimeout(() => {changeBackgroundColor(1000000);
-                }, 500);
-            //This resets the values to allow for the user
-            // to play the next sequence
-            correctInputs = 0;
-            playerInputs = 0;
-            sequencePoints = 0;
-            //This is for testing and checks if all the values
-            //  have been emptied out
-            maxInputs+=1;
-            startMemorySequence();
-            resetButtons();
+    let curScore = (squareX === curSquare) ? 100 : -50;
+    points+=curScore;
+    updateScoreBoard();
+    playerInputs+=1;
+    if (curScore === -50){
+        if (lives === 1){
+
         }
-    }else if (squareX !== curSquare && curSquare){
-        points = points - 50;
-        sequencePoints-=50;
-        updateScoreBoard();
-        playerInputs+=1;
-        if(playerInputs === maxInputs){
-            changeBackgroundColor(sequencePoints);
-            setTimeout(() => {changeBackgroundColor(1000000);
-                }, 500);
-            correctInputs = 0;
-            playerInputs = 0;
-            sequencePoints = 0;
-            maxInputs+=1;
-            startMemorySequence();
-            resetButtons();
-        }
-    }else{
-        console.log("Empty array or something went wrong");
+    }else if (){
+
     }
+    if (curScore === -50 && lives > 1){
+        loseLife();
+        changeBackgroundColor(2);
+        const t = setTimeout(() => {changeBackgroundColor(0);
+                }, 500);
+        sequenceToMatch = [...copyOfSequence];
+        playerInputs = 0;
+        i=0;
+        hideButtons();
+        showButtonsPeriodically();
+    }else if(curScore === -50 && lives <=1){
+        loseLife();
+        showEndGameModal();
+    }else if(playerInputs === maxInputs){
+        changeBackgroundColor(1);
+        const t = setTimeout(() => {changeBackgroundColor(0);
+                }, 500);
+        playerInputs = 0;
+        resetButtons();
+        startMemorySequence();
+        maxInputs+=1;
+    }
+    console.log("lives: ",lives);
 }
 
 function changeBackgroundColor(levelOfAccuracy){
-    const maxPointsPossible = maxInputs * 100;
-    //Depending on how correct the player is the screen
-    //  will change to the corresponding colours.
-    //To increase difficulty, the level of accuracy will be
-    //  done by percent of max number of points. For example,
-    //level 1 max points = (lengthOfSequence*100). And done by
-    //  what amount of points obtained that level instead of
-    //overall points. As that would make it really hard to ever
-    //  get a full correct green win.
-    //Green is maxpoint, orange is green/yellow is 80%, orange
-    //  is 60%, orange/red is 40, and red is 20 and below.
     if(typeof levelOfAccuracy == "number"){
-        if(levelOfAccuracy === 1000000){
+        if(levelOfAccuracy === 0){
             document.body.style.backgroundColor = "white";
-        }else if(levelOfAccuracy === maxPointsPossible){
+        }else if(levelOfAccuracy === 1){
             document.body.style.backgroundColor = "#2bd42f";
-        }else if(levelOfAccuracy < maxPointsPossible &&
-             levelOfAccuracy >= (maxPointsPossible*0.75)){
-            document.body.style.backgroundColor = "#d5e41b";
-        }else if(levelOfAccuracy < (maxPointsPossible *0.75) &&
-         levelOfAccuracy >= (maxPointsPossible*0.5)){
-            document.body.style.backgroundColor = "#f1990e";
-        }else if(levelOfAccuracy < (maxPointsPossible * 0.5) &&
-         levelOfAccuracy >= (maxPointsPossible*0.25)){
-            document.body.style.backgroundColor = "#ff6000";
-        }else if(levelOfAccuracy < (maxPointsPossible *0.25)){
+        }else if(levelOfAccuracy === 2){
             document.body.style.backgroundColor = "#ff1300";
         }else{
             console.log("No colours left");
