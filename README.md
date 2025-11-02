@@ -660,7 +660,6 @@ function showButtonsPeriodically(){
             showButtonsPeriodically();
         }else if(i>=(maxInputs+1) && sequenceToMatch){
             console.log("Showing buttons");
-            resetButtonsIndex();
             showButtons();
             shownSequence = true;
             i=0;
@@ -698,15 +697,14 @@ When the sequence is still running, the function checks if there is a repeat ite
 ```
 else if(i>=(maxInputs+1) && sequenceToMatch){
     console.log("Showing buttons");
-    resetButtonsIndex();
     showButtons();
     shownSequence = true;
     i=0;
 }
 ```
-Once the function has iterated through all items in the `sequenceToMatch` array it resets all the button colours with the **`resetButtonsIndex()`** function and shows all the buttons with the **`showButtons()`** function. Lastly, it sets the boolean variable `shownSequence` which allows for the **`hideButtonX(x)`** function to access the **`pointCheck(square)`** function.
+Once the function has iterated through all items in the `sequenceToMatch` array and shows all the buttons with the **`showButtons()`** function. Lastly, it sets the boolean variable `shownSequence` which allows for the **`hideButtonX(x)`** function to access the **`pointCheck(square)`** function.
 
-#### **`pointCheck()`**
+#### **`pointCheck()`** level 5
 ```
 function pointCheck(squareX){
     let curSquare = sequenceToMatch.shift();
@@ -737,7 +735,7 @@ function pointCheck(squareX){
         playerInputs = 0;
         maxInputs+=1;
         roundID+=1;
-        resetButtonsIndex();
+
         startMemorySequence();
 
     }
@@ -767,6 +765,160 @@ if (curScore === -50){
 }
 ```
 If the user is on their last life and they chose the wrong input then the game will show the **Game Over** modal window which will indicate whether they want to play again, choose a different level or close the modal window.
+
+If they have more than 1 life left then the **`loseLife()`** function will be activated, which will decrement the lives the user has and removes one life icon. The **`loseLife()`** function can be found [here](#loselife) . It also sets `shownSequence` to false which turns off the ability to access this function and primes the program to show the sequence again. After that, the background colour flashes red then after half a second the screen turns back to white. After that, the `sequenceToMatch` array takes a deep copy of the `copyOfSequence` array, `playerInputs` is set to 0. Then all buttons are hidden and the **`showButtonsPeriodically()`** function is run to show the same sequence again.
+
+##### If the user matches the sequence perfectly
+```
+else if (playerInputs === maxInputs){
+    changeBackgroundColor(1);
+    const t = setTimeout(() => {changeBackgroundColor(0);
+            }, 500);
+    playerInputs = 0;
+    maxInputs+=1;
+    roundID+=1;
+    startMemorySequence();
+}
+```
+If the user matches the sequence perfectly, then the background colour changes to green and then switched back to white after half a second which is done by using the **`changeBackgroundColour()`** function which can be found [here](#changebackgroundcolourlevelofaccuracy-level-5). The `playerInputs` variable is reset to 0, `maxInputs` is incremented by 1 which lengthens the next sequence, increments `roundID` by 1 and **`startMemorySequence()`**
+
+#### **`startMemorySequence()`** level 5
+```
+function startMemorySequence(){
+    document.getElementById("startBtnL5").disabled = true;
+    sequenceToMatch = [];
+    copyOfSequence = [];
+    for (const t of activeTimeouts) clearTimeout(t);
+    activeTimeouts = [];
+    shownSequence = false;
+    i=0;
+  	repeatCount = 1;
+    increaseSpeed();
+    if(lives>0){
+        hideButtons();
+        generateSequence();
+        showButtonsPeriodically();
+    }else{
+        showEndGameModal();
+        return;
+    }
+}
+```
+The main difference here in comparison to previous iterations is that the `copyOfSequence` array is added and reset 0, as well as the condition for allowing the sequences to run is now `(lives > 0)` which is when the user still has a life, otherwise the user will see a **Game Over** modal window which will end the game.
+
+#### **`showEndGameModal()`** level 5
+```
+function showEndGameModal(){
+    document.getElementById("finalScoreL5").textContent = points;
+    document.getElementById("finalPercentScoreL5").textContent
+        = `You completed ${roundID} rounds`;
+    const endModal = new bootstrap.Modal
+    (document.getElementById("endGameModalL5"));
+    endModal.show();
+}
+```
+This function is similar to previous iterations, however, this time around the `endGameModal` window shows how many rounds the user has reached and the amount of points they have accumulated. Here is an example of what it would look like:
+![Game Over Level 5](/assets/images/level5gameoverwindow.png)
+
+#### **`changeBackgroundColour(levelOfAccuracy)`** level 5
+```
+function changeBackgroundColor(levelOfAccuracy){
+    // Simplified since you can only be right or wrong and return to normal
+    if(typeof levelOfAccuracy == "number"){
+        if(levelOfAccuracy === 0){
+            document.body.style.backgroundColor = "white";
+        }else if(levelOfAccuracy === 1){
+            document.body.style.backgroundColor = "#2bd42f";
+        }else if(levelOfAccuracy === 2){
+            document.body.style.backgroundColor = "#ff1300";
+        }else{
+            console.log("No colours left");
+        }
+    }else{
+        console.log("Invalid levelOfAccuracy: ", levelOfAccuracy);
+    }
+}
+```
+This function is similar to its previous versions, however, the colours that the background colour could flash is farmore limited as the user can only be right or wrong at level 5, plus the white is there when the background colour needs to revert back to its original colour.
+
+#### **`increaseSpeed()`** level 5
+```
+function increaseSpeed(){
+    let timeDelay = (roundID % 3 == 0) ? -500 : 0;
+    if(sequenceSpeed > 1000){
+        sequenceSpeed += timeDelay;
+    }
+}
+```
+This function increase the speed of the buttons shown in the **`showButtonsPeriodically()`** function by decrementing the speed delay by 500 every 3 rounds but caps off at 1000 which I think is the lowest the speed delay can be before the game is unplayable.
+
+#### **`showHearts()`** level 5
+```
+function showHearts(){
+    for (let i = 0; i<3; i++){
+        document.getElementById(`live${i+1}`).style.visibility = "visible";
+    }
+}
+```
+This function is great for the **`restartGame()`** function which can be found [here](#restartgame). It shows all the heart icons on the game window after they restart the game.
+
+#### **`loseLife()`** level 5
+```
+function loseLife(){
+    document.getElementById(`live${lives}`).style.visibility = "hidden";
+    lives-=1;
+}
+```
+When the user has 3 lives and they chose the wrong input, then the function removes the third life and decrements lives by 1. The functions order matters since the lives are only `live3, live2` and `live1`. Decrementing after just ensures that existing elements are removed rather than getting a null element.
+
+#### **`restartGame()`** level 5
+```
+function restartGame(){
+    const modalElement = document.getElementById("endGameModalL5");
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if(modalInstance){
+        modalInstance.hide();
+    }
+
+    //Fully reset all variables
+    sequenceToMatch = [];
+    copyOfSequence = [];
+    activeTimeouts = [];
+    maxInputs = 1;
+    points = 0;
+    lives = 3;
+    i=0;
+    playerInputs = 0;
+    sequenceSpeed = 2500;
+    showHearts();
+    updateScoreBoard();
+    shownSequence = false;
+    startMemorySequence();
+}
+```
+This is pretty much the same as previous iterations, but this time it just ensures every important data structure and variable is reset and shows all the lives icon on the game window, and resets the scoreboard using the **`updateScoreBoard()`** function to 0. **`updateScoreBoard()`** can be found [here](#updatescoreboard).
+
+#### **`fetchAndPlaceIcon(link)`**
+```
+const URLINK = "https://cdn.jsdelivr.net/npm/iconoir@6/icons/heart.svg";
+const count = 3;
+async function fetchAndPlaceIcon(link){
+    try{
+        const res = await fetch(link);
+        if (!res.ok){
+            throw new Error(`Response status: ${res.status}`);
+        }
+        const result = await res.text();
+        for(let i=0;i<count; i++){
+            document.getElementById(`live${i+1}`).innerHTML = result;
+        }
+    }catch(error){
+        console.error("Error: ",error);
+    }
+}
+```
+This function is attached to level 5 and fetches the heart icons from the internet, which is linked to an `.svg` file. Depending on the link passed into the function, it will fetch the data associated with the link. If the **`fetch()`** function gets the data without issue it collects the data and converts it to text. It then populates the `span` containers with the svg elements grabbed from the link and places them in the html file.
+
 ### Features left to implement
 Initially, I wanted to create another game mode that would be able to test the user's reaction time and if I wanted to adapt this game into a long term more fully fleshed project I would consider delving deeper into other game modes that could really test the user's cognitive abilities. An example would be games that test the user's IQ such as the fox, the hen and the worm problem which is more niche game modes that could come up in the initial tests used to test prospective candidates for IT roles. Here's how the game mode works:
 - There are 3 creatures: The fox, the hen and the worm
@@ -931,6 +1083,8 @@ Level 4 passed the validator check without issue.
 
 #### Level 5.html
 Level 5 passed the validator check without issue.
+![level5.html file select](/assets/images/level5.htmlfileselect.png)
+![level5.html passed](/assets/images/level5.html%20passed.png)
 
 #### Coming-soon.html
 The coming soon webpage passed the validator check without issue.
@@ -941,3 +1095,8 @@ The coming soon webpage passed the validator check without issue.
 Here I run the `style.css` file through the CSS Validator website. [Here](https://jigsaw.w3.org/css-validator/) is the link to the website used to validate the file.
 ![style.css file select](/assets/images/style.css%20file%20select.png)
 ![style.css passed](/assets/images/style.css%20passed.png)
+
+### JavaScript Validation
+Here I tested all of my JavaScript files and ran it throught the `JSHint` website which can be found [here](https://jshint.com/).
+
+####

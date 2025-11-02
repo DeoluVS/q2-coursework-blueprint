@@ -119,17 +119,11 @@ function startMemorySequence(){
     }
 }
 
-function resetButtonsIndex(){
-    for (let i=0; i<9;i++){
-        document.getElementById(`square-labelZ${i+1}`).innerText = i+1;
-        document.getElementById(`shapeZ${i+1}`).style.backgroundColor =
-         "rgb(0, 0, 255)";
-    }
-}
 
 function resetButtons(){
-    for (let i=0; i<9;i++){
-        document.getElementById(`square-labelZ${i+1}`).innerText = 0;
+    for (let i=0; i<numberOfSquares;i++){
+        document.getElementById(`shapeZ${i+1}`).style.backgroundColor =
+         "rgb(0, 0, 255)";
     }
 }
 
@@ -263,7 +257,6 @@ function showButtonsPeriodically(){
             //  all buttons are shown for the user to
             //enter what they remember
             console.log("Showing buttons");
-            resetButtonsIndex();
             showButtons();
             shownSequence = true;
             i=0;

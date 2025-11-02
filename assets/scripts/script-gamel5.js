@@ -82,11 +82,10 @@ function showButtons(){
 
 //Every three rounds the timeDelay decreases
 function increaseSpeed(){
-    let timeDelay = (roundID % 3 == 0) ? -250 : 0;
+    let timeDelay = (roundID % 3 == 0) ? -500 : 0;
     if(sequenceSpeed > 1000){
         sequenceSpeed += timeDelay;
     }
-    console.log(`Current round Id is ${roundID} and current speed is ${sequenceSpeed}`);
 }
 
 //This randomly generates the sequence and adds it to the array
@@ -115,17 +114,10 @@ let i=0;*/
 //This starts the sequence and resets all the necessary
 //  arrays and variables.
 
-
-function resetButtonsIndex(){
+function resetButtons(){
     for (let i=0; i<numberOfSquares;i++){
         document.getElementById(`shapeA${i+1}`).style.backgroundColor =
          "rgb(0, 0, 255)";
-    }
-}
-
-function resetButtons(){
-    for (let i=0; i<numberOfSquares;i++){
-        document.getElementById(`square-labelA${i+1}`).innerText = 0;
     }
 }
 
@@ -207,7 +199,7 @@ function showButtonsPeriodically(){
             //  all buttons are shown for the user to
             //enter what they remember
             console.log("Showing buttons");
-            resetButtonsIndex();
+            resetButtons();
             showButtons();
             shownSequence = true;
             i=0;
@@ -300,7 +292,7 @@ function pointCheck(squareX){
         //Increase the roundID
         roundID+=1;
         // Reset the buttons colours back to blue
-        resetButtonsIndex();
+        resetButtons();
         //Start a new sequence
         startMemorySequence();
 
