@@ -97,6 +97,26 @@ This is the hardest level altogether. It starts off slow but gradually increases
 #### How to Play
 This screen just has a basic explanation of all the levels designed above in a digestible form.
 
+### Must Haves
+- Scoreboard for the current score
+- How to play screen
+- Easy to navigate how to play screen
+- Responsive Design
+- Clear indication of correct inputs and wrong inputs
+
+### Should have
+- At least 4 levels
+- Redirect for webpages or unaccounted for path directions
+- Basic Hero on home page
+- API call for icons
+- Indicate a correct answer by changing background colour
+
+### Nice to haves
+- High score storing the user's best score as a cookie
+- Graphs to compare the average score of user to the average person in a certain age group
+- Reaction time game
+- Scoreboard number flash red when score decrements and flash green when it increments
+
 ## Features
 In the features section I will explain what I have implemented into the game and how the features interact with each other to make the game work. In the functions section there are small differences between how the functions work to make the game run as well as small optimisations for things that require alot more data and individual conditions as the complexity increases.
 ### Functions (Level 1-3)
