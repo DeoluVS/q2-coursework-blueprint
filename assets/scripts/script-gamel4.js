@@ -320,8 +320,8 @@ function pointCheck(squareX){
             //This is for testing and checks if all the values
             //  have been emptied out
             maxInputs+=1;
-            startMemorySequence();
             resetButtons();
+            startMemorySequence();
         }
     }else if (squareX !== curSquare && curSquare){
         points = points - 50;

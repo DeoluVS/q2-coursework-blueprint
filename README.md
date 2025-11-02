@@ -916,6 +916,7 @@ async function fetchAndPlaceIcon(link){
         console.error("Error: ",error);
     }
 }
+fetchAndPlaceIcon(URLINK);
 ```
 This function is attached to level 5 and fetches the heart icons from the internet, which is linked to an `.svg` file. Depending on the link passed into the function, it will fetch the data associated with the link. If the **`fetch()`** function gets the data without issue it collects the data and converts it to text. It then populates the `span` containers with the svg elements grabbed from the link and places them in the html file.
 
@@ -1098,5 +1099,10 @@ Here I run the `style.css` file through the CSS Validator website. [Here](https:
 
 ### JavaScript Validation
 Here I tested all of my JavaScript files and ran it throught the `JSHint` website which can be found [here](https://jshint.com/).
+
+#### Fetch-icon.js
+I tested the file and it didn't show any errors when I ran it throw `JSHint`. Here are the screenshots:
+![fetch-icon.js test](/assets/images/fetch-icon-screenshot.png)
+![fetch-icon.js passed](/assets/images/fetch-icons-js-passed.png)
 
 ####
