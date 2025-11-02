@@ -1247,3 +1247,9 @@ The way I fixed it was to change the way I wrote out the condition and remove th
 
 ## Code
 - Fetch concept from [Mozilla](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch). Gave a rough outline to work off of and make the [FetchAndPlaceIcon()](#fetchandplaceiconlink) function.
+- Redirector.js file base was made from a lecture Yasen Salem led to show how a redirect would work.
+- Random Inclusive function from [Mozilla](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
+- Recursive sequence function for displaying buttons at a time delay was made from a [Stack Overflow](https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop) function reworked in a way that works for my program.
+- Modal window from the [Bootstrap Documentation](https://getbootstrap.com/docs/5.3/components/modal/)
+- The main homepage section container and structure is from this [Bootstrap Template](https://getbootstrap.com/docs/5.0/examples/heroes/) as well as the nav bar used from Bootstrap. Nav bar template can be found [here](https://getbootstrap.com/docs/5.0/examples/headers/)
+- Brain icon on the homepage can be found on the [icons8](https://icons8.com/icons/set/brain) website.
