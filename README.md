@@ -54,6 +54,9 @@ For this website, I want it to be more JavaScript heavy rather than design heavy
 
 As you can see the basic design is a hero on the landing page with an easy and visible button that should re-route the user to the level select window. When you click one of the levels it will make the user navigate to the game window where you have to click the start button and the game will start working. For any levels that haven't been completed yet, the user will be sent to the coming-soon page which should redirect the user to back to the level select screen or back to the homepage screen.
 
+#### Home Page
+![Home page wireframe](/assets/wireframes/homepage%20wireframe.drawio.png)
+
 #### Level 1
 ![Level 1 wireframe](/assets/wireframes/level1%20diagram.drawio.png)
 
@@ -67,11 +70,13 @@ As you can see the basic design is a hero on the landing page with an easy and v
 ![Level 4 wireframe](/assets/wireframes/level4%20diagram.drawio.png)
 
 #### Level 5
-![Level 5 wireframe](/assets/wireframes/level5%20diagram.drawio.png)
+![Level 5 wireframe](/assets/wireframes/level5%20diagram.drawio.wireframe.png)
 
 #### How to Play
 ![How to play wireframe](/assets/wireframes/how-to-play.drawio.png)
 
+#### Level Select
+![Level Select wireframe](/assets/wireframes/level-select-wireframe.drawio.png)
 
 ### Level Design
 #### Level 1
@@ -1240,3 +1245,5 @@ The way I fixed it was to change the way I wrote out the condition and remove th
 ![script-gamel5.js amended screenshot](/assets/images/level5.js%20amended%20screenshot.png)
 ![script-gamel5.js pass](/assets/images/level5.js%20pass.png)
 
+## Code
+- Fetch concept from [Mozilla](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch). Gave a rough outline to work off of and make the [FetchAndPlaceIcon()](#fetchandplaceiconlink) function.
