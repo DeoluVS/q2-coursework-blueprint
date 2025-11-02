@@ -12,7 +12,7 @@ const highestScorePossible = (2*100)+(3*100)+(4*100)+(5*100);
 const numberOfSquares = 4;
 let repeatCount = 1;
 //level 1 should have 4 max rounds just to ease the user in
-const lastRound = 5;
+const lastRound = 6;
 //This boolean will turn off some functionality depending
 //  on if the sequence is being actively shown or not.
 let shownSequence = false;

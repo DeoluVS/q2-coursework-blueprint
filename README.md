@@ -9,8 +9,9 @@ This game was inspired by the Human Benchmark game where you have a sequence of 
 - Create a game that has an increasing level of difficulty for each round the user passes.
 - Create multiple levels that increase in dimensions of squares the user has to play.
 - Create easy navigation for the user to move around the website.
-- Create 3 levels ranging from a 2x2 grid to a 4x4 grid.
+- Create 5 levels ranging from a 2x2 grid to a 4x4 grid.
 - Making the game difficulty at a manageable level, making it more accesible to more players.
+- Create a basic how to play screen
 
 #### Player Goals
 The intended audience for the game is for anyone who wants to assess their cognitive abilities. One target audience might also be job seekers looking for a role in IT as some companies require you to do an IQ test or a series of activities and questionnaires to assess if you're a right fit for the company. Being able to retain and reproduce information is one of the more important things to work on and it's the one game type that I tend to practice that game mode the most. It mainly targets short term memory as you need to look at a sequence and replay the same order of inputs as shown to the user.
@@ -28,7 +29,7 @@ The developer goals are:
 - Adequately increase the difficulty on each level
 - Make the increase in difficulty gradual and not too difficult
 - Ensure that the website is easy to navigate
--
+- Make the user have easy indication of when they are right/wrong
 
 ### Research
 From looking at other memory games, I had noticed a lot of different functionalities that seemed interesting. One of the more notable examples was Human Benchmark. One of the more interesting things that they had in their game was a way to build on their previous sequence and keep adding one more item to the sequence the user started with. They also added some audio cues to help the user remember which block to press.
@@ -44,6 +45,7 @@ The game starts with flashing one square and the game starts to create a longer 
 - As a player, I want the sequence to lengthen after each round.
 - As a player, I would like a summary screen for after
 - As a player, I want to be able to see my current score as time the game progresses.
+- As a player, I would like a how to play screen to know how the game works.
 
 ### Wireframes
 For this website, I want it to be more JavaScript heavy rather than design heavy so one of the things I will work towards is just using a simplistic design but still doing the best I can to make it pass all the validator pass checks. This game is more geared towards the mobile view but it can be played on desktop, mobiles and tablets. Here is the mobile view of the wireframe:
@@ -51,6 +53,44 @@ For this website, I want it to be more JavaScript heavy rather than design heavy
 ![Wireframe Mobile View](assets/images/wireframes%20mobile%20view.drawio.png)
 
 As you can see the basic design is a hero on the landing page with an easy and visible button that should re-route the user to the level select window. When you click one of the levels it will make the user navigate to the game window where you have to click the start button and the game will start working. For any levels that haven't been completed yet, the user will be sent to the coming-soon page which should redirect the user to back to the level select screen or back to the homepage screen.
+
+#### Level 1
+![Level 1 wireframe](/assets/wireframes/level1%20diagram.drawio.png)
+
+#### Level 2
+![Level 2 wireframe](/assets/wireframes/level2%20diagram.drawio.png)
+
+#### Level 3
+![Level 3 wireframe](/assets/wireframes/level3%20diagram.drawio.png)
+
+#### Level 4
+![Level 4 wireframe](/assets/wireframes/level4%20diagram.drawio.png)
+
+#### Level 5
+![Level 5 wireframe](/assets/wireframes/level5%20diagram.drawio.png)
+
+#### How to Play
+![How to play wireframe](/assets/wireframes/how-to-play.drawio.png)
+
+
+### Level Design
+#### Level 1
+This level should be a simple 2x2 easy to follow level which has distinct colours, displays each item at a reasonable pace and, has an indication on the buttons for any repeats in the sequence. It's gonna have a maximum of 4-5 rounds to get through where each sequence gets longer by 1 item and the user enters each item in the exact order it is shown.
+
+#### Level 2
+This level is a slight increase in difficulty, just like level 1 the user will have to get through 4-5 rounds of sequences each one getting longer the more rounds that the user passes. The main difference is that it is now a 3x3 game mode. It still has the indication of any duplicate items in the sequence to the user by a number on the buttons.
+
+#### Level 3
+This level is a bit more difficult than the last one. Just like how level 2 has a 3x3 grid to follow and 4-5 rounds to get through. However, the twist is that the button labels to indicate a repeat in the sequence has been removed and instead every other repeat item in the sequence makes the square turn black. For example, 43331 would make square 3 turn yellow, black and then yellow again. Additionally, the speed of the sequence is increased a bit to make it more challenging.
+
+#### Level 4
+Thus level increases the difficulty a tad bit more in comparison to the previous level. The difference between this level and the last is that all squares are now the same colour, the speed of the sequence is increased again and it retains the same alternating pattern for repeat items in the sequence.
+
+#### Level 5
+This is the hardest level altogether. It starts off slow but gradually increases in speed every set amount of rounds. It also gives the user some lives. Every wrong input takes one life away and makes the code replay the sequence that they got wrong. When they get all inputs right, the sequence will get longer by 1.
+
+#### How to Play
+This screen just has a basic explanation of all the levels designed above in a digestible form.
 
 ## Features
 In the features section I will explain what I have implemented into the game and how the features interact with each other to make the game work. In the functions section there are small differences between how the functions work to make the game run as well as small optimisations for things that require alot more data and individual conditions as the complexity increases.
@@ -985,6 +1025,46 @@ The first line creates the basePath and depending on if the code is using the de
 
 If in deployment, it creates `basePath = "/q2-coursework-blueprint/index.html"` for the `index.html` file.
 
+#### Restart Game
+There were some issues that arose when restarting the game, particularly after the user has reached the maximum amount of sequences or the user has lost all of their lives, when the the `endGameModal` appears and the user wants to play again, there were some issues with some of the buttons not showing itself properly. This happened mainly with level 5 which had different logic for when the game finished since it can be a near infinite game for as long as the user can keep up with the sequence.
+
+The way I resolved it was by doing a full state reset in the **`restartGame()`** function even if I may think it has been reset elsewhere just to be sure that there isn't an issue when running again.
+```
+function restartGame(){
+    const modalElement = document.getElementById("endGameModalL5");
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if(modalInstance){
+        modalInstance.hide();
+    }
+
+    //Fully reset all variables
+    sequenceToMatch = [];
+    copyOfSequence = [];
+    activeTimeouts = [];
+    maxInputs = 1;
+    points = 0;
+    lives = 3;
+    i=0;
+    playerInputs = 0;
+    sequenceSpeed = 2500;
+
+    showHearts();
+    updateScoreBoard();
+    shownSequence = false;
+    startMemorySequence();
+    console.log("Sequence to Match Array: ",sequenceToMatch);
+}
+```
+There was also an issue of showing the number of hearts to the user which I still needed to rectify. At the time, the code would be able to fetch the hearts to represent the user's lives left from an online svg file (this can be found in the [Fetch And Place Icon](#fetchandplaceiconlink) section). But, when you restart the game I thought that initially all I needed to do was call the same function again but it didn't work. But, looking at the logic of the **`loseLife()`** function (the function can be found [here](#loselife-level-5)) the hearts were only hidden and didn't need to be repopulated again. Instead, I created the **`showHearts()`** function and called it when the **`restartGame()`** function is called. This is how the **`showHearts()`** function works:
+```
+function showHearts(){
+    for (let i = 0; i<3; i++){
+        document.getElementById(`live${i+1}`).style.visibility = "visible";
+    }
+}
+```
+All it does is set every heart back to visible.
+
 ### Stakeholder Testing
 I also let stakeholders who may be interested in the product test it out and give feedback for any additional functionality I could include to make the website more appealing. Here are a few things that was tested and amended to make the game better:
 
@@ -1004,6 +1084,7 @@ This function resets all the button labels to 0 to ensure that there aren't any 
 
 #### Progress indicator
 The stakeholder caught an issue that they weren't aware of how well they were doing aside from the screen changing colour whenever all inputs match the sequence. So, instead I added a score board underneath the game box to indicate a correct response. If the user chooses the right item in the sequence, then they get 100 points but if they choose the wrong button the they lose 50 points. This was resolved in the **`pointCheck()`** function. Click [pointCheck()](#pointchecksquare) here.
+Additionally, when you reach level 5, the user can only be right or wrong so when the user clicks the wrong button they lose a life and the sequence has to start again. This can be found in **`pointCheck()`** level 5 [here](#pointcheck-level-5).
 
 ### HTML Validation
 Here I will show how I ensured my website has been designed in a way that passes the HTML Validator checks. The HTML Validator can be found [here](https://validator.w3.org/)
@@ -1086,6 +1167,11 @@ Level 4 passed the validator check without issue.
 Level 5 passed the validator check without issue.
 ![level5.html file select](/assets/images/level5.htmlfileselect.png)
 ![level5.html passed](/assets/images/level5.html%20passed.png)
+
+#### How to Play.html
+How to play webpage passed the validator check without issue.
+![how-to-play file-select](/assets/images/how-to-play-file-select.png)
+![how-top-play pass](/assets/images/how-to-play.html%20passed.png)
 
 #### Coming-soon.html
 The coming soon webpage passed the validator check without issue.
