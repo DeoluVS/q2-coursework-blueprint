@@ -1105,4 +1105,52 @@ I tested the file and it didn't show any errors when I ran it throw `JSHint`. He
 ![fetch-icon.js test](/assets/images/fetch-icon-screenshot.png)
 ![fetch-icon.js passed](/assets/images/fetch-icons-js-passed.png)
 
-####
+#### Redirector.js
+On the initial test, there weren't any overt problems but it did flat the 2 timers that were unused variables.
+![redirector.js screenshot](/assets/images/redirectorjsscreenshot.png)
+![redirector.js error](/assets/images/redirectorjserror.png)
+
+So, what I did to fix that problem was to just call the 2 timers without initialising it in a variable but using it like a function with the internal logic as the parameteres.
+![redirector.js amended screenshot](/assets/images/redirector.js%20amended%20screenshot.png)
+![redirector.js passed](/assets/images/redirector.js%20passed.png)
+
+#### Script-game.js
+On the initial test, there was one flag of an unused function which is the **`restartGame()`** function. However, since the function is an `onclick` function it will be used on the front end by the user if they want to replay so I believe its acceptable to ignore that.
+
+![script-game.js screenshot](/assets/images/script-game-js-screenshot.png)
+![script-game.js pass](/assets/images/script-game.js%20semi-pass.png)
+
+#### Script-gamel2.js
+On the initial test, one flag appeared saying that there is one function that is unused but the JSHint won't know that the function is used in the `level2.html` file. Here is the screen shot:
+
+![script-gamel2.js screenshot](/assets/images/script-gamel2.js%20screenshot.png)
+![script-gamel2.js pass](/assets/images/script-gamel2.js%20pass.png)
+
+#### Script-gamel3.js
+On this test there were a few different errors raised initially which was related to the **`resetButtonIndex()`** function as well as `i` interator that is said to be unused. Here are the screenshots:
+
+![script-gamel3.js screenshot](/assets/images/level3.js%20screenshot.png)
+![script-gamel3.js error](/assets/images/level3.js%20error.png)
+
+I decided to remove the **`resetButtonIndex()`** function as it is mostly a testing function and doesn't have any application aside from placing the index of square on the label. Additionally, despite the code working without initialising `i` that would be a symptom of how JavaScript is loosely typed and let's you get away with a lot more than other strict programming languages like C++. I initialised `i` at the top with the rest of the global variables so it wont be flagged.
+
+![script-gamel3.js amended screenshot](/assets/images/level3.js%20screenshot%20amended.png)
+![script-gamel3.js pass](/assets/images/level3.js%20pass.png)
+
+#### Script-gamel4.js
+On the initial test, one flag appeared saying that there is one function that is unused but the JSHint won't know that the function is used in the `level4.html` file. Here is the screen shot:
+
+![script-gamel4.js screenshot](/assets/images/level4.js%20screenshot.png)
+![script-gamel4.js pass](/assets/images/level4.js%20pass.png)
+
+#### Script-gamel5.js
+On this test, there were a few flags raised in accordance to a few unused variables that had been used in previous iterations from level 1-4 but since the logic in level5 is quite different, they will have to be removed. Additionally, there were some flags raised when making a multi-line condition. Here is the initial state of the code:
+
+![script-gamel5.js screenshot](/assets/images/level5.js%20screenshot.png)
+![script-gamel5.js error](/assets/images/level5.js%20error.png)
+
+The way I fixed it was to change the way I wrote out the condition and remove the unused variables, aside from the timer `t` variables which initialising them as variables ensures that there is no carry over to the next rounds and can be appended to the `activeTimeouts` array and have each old timer cleared before the next sequence in the **`startMemorySequence()`** function. Here are the screenshots:
+
+![script-gamel5.js amended screenshot](/assets/images/level5.js%20amended%20screenshot.png)
+![script-gamel5.js pass](/assets/images/level5.js%20pass.png)
+

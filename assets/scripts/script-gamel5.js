@@ -10,15 +10,11 @@ let points = 0;
 let lives = 3;
 let roundID = 0;
 let playerInputs = 0;
-let correctInputs = 0;
 let maxInputs = 1;
 let repeatCount = 1;
-let sequencePoints = 0;
 let sequenceSpeed = 2500;
-const HIGHEST_SCORE_POSSIBLE = (3*100)+(4*100)+(5*100)+(6*100);
 const numberOfSquares = 16;
-//level 1 should have 4 max rounds just to ease the user in
-const lastRound = 6;
+
 //This boolean will turn off some functionality depending
 //  on if the sequence is being actively shown or not.
 let shownSequence = false;
@@ -123,8 +119,8 @@ function resetButtons(){
 
 function showEndGameModal(){
     document.getElementById("finalScoreL5").textContent = points;
-    document.getElementById("finalPercentScoreL5").textContent
-        = `You completed ${roundID} rounds`;
+    document.getElementById("finalPercentScoreL5").textContent =
+    `You completed ${roundID} rounds`;
     const endModal = new bootstrap.Modal
     (document.getElementById("endGameModalL5"));
     endModal.show();
@@ -179,9 +175,9 @@ function showButtonsPeriodically(){
             }
             //Simplified to just check if a number came through instead of making
             // multiple else if statements
-            if(typeof sequenceToMatch[i-1] == "number"
-                && sequenceToMatch[i-1] <= numberOfSquares
-                && sequenceToMatch[i-1] > 0){
+            if(typeof sequenceToMatch[i-1] == "number" &&
+                 sequenceToMatch[i-1] <= numberOfSquares &&
+                 sequenceToMatch[i-1] > 0){
                 oddOrEven(repeatCount,current);
                 showButtonX(current);
                 const t = setTimeout(() => {hideButtonX(current);

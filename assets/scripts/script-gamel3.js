@@ -127,13 +127,6 @@ function startMemorySequence(){
     }
 }
 
-function resetButtonsIndex(){
-    for (let i=0; i<9;i++){
-        document.getElementById(`square-labelY${i+1}`).innerText = i+1;
-
-    }
-}
-
 function resetButtons(){
     for (let i=0; i<9;i++){
         document.getElementById(`shapeY${i+1}`).style.backgroundColor =
