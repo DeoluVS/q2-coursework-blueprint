@@ -567,6 +567,7 @@ const colourIndex =
 ];
 ```
 And for level 4, as a form of increasing the difficulty all squares instead of referring to a colour Index will all be assigned the colour `"rgb(0, 0, 255)"`. All levels after level 4 will remain the same blue from level 4 onwards.
+
 #### **`showButtonsPeriodically()`**
 ```
 if(sequenceToMatch[i-1] === 1){
@@ -631,6 +632,141 @@ showButtonsPeriodically();
 ```
 The main difference this time around is that each loop has 500ms less time between each item in the sequence. For level 3, the time difference between showing each item is now 1.5s instead of the 2 seconds from level 1 and level 2 and Level 4 has an interval of 1s It will cap out at 0.5s since that is already hard enough and showing it for 0s won't be visible to the user. The **`oddOrEven()`** function will be called when it passes the `elif` or `if` statements using the `repeatCount variable`. Similar to the previous iteration of this function, the code checks what the current item in the sequence is and calls **`oddOrEven(repeatCount, x)`** with `x` being the current item in the sequence. It then shows `buttonX` using the **`showButtonX(x)`** function and hides the button after 1.5s and then does a recursive call to check if there is another item in the sequence.
 
+For level 5, I fully stripped the function down to be more efficient and rely a lot less on the `if/elif` statements and just ensure that all values being passed into the function is a number and less than or equal to 16 (which is the number squares shown in level 5). Here is the function:
+```
+function showButtonsPeriodically(){
+    setTimeout(function() {
+        i=i+1;
+        if(i<maxInputs+1 && sequenceToMatch){
+            const current = sequenceToMatch[i - 1];
+            const prev = sequenceToMatch[i - 2];
+            if (current === prev) {
+                repeatCount++;
+            } else {
+                repeatCount = 1;
+            }
+            if(typeof sequenceToMatch[i-1] == "number"
+                && sequenceToMatch[i-1] <= numberOfSquares
+                && sequenceToMatch[i-1] > 0){
+                oddOrEven(repeatCount,current);
+                showButtonX(current);
+                const t = setTimeout(() => {hideButtonX(current);
+                }, sequenceSpeed);
+                activeTimeouts.push(t);
+
+            }else{
+                console.log("Something is wrong");
+            }
+            showButtonsPeriodically();
+        }else if(i>=(maxInputs+1) && sequenceToMatch){
+            console.log("Showing buttons");
+            resetButtonsIndex();
+            showButtons();
+            shownSequence = true;
+            i=0;
+        }
+    },sequenceSpeed);
+}
+```
+As you can see, the code is a lot more efficient in that it doesn't need to check whether each value matches with a specific number, but instead it just needs to be within the range of 1-16. Any more or less than that will not allow the sequence to run, which should exclude any undefined or null values as well. Additionally, the speed of each iteration is made up in a way to speed up after every 3 rounds or whatever the frequency I choose, it could be 4 or 5 but normally it is set to 3.
+
+##### When the sequence is still running
+```
+const current = sequenceToMatch[i - 1];
+const prev = sequenceToMatch[i - 2];
+if (current === prev) {
+    repeatCount++;
+} else {
+    repeatCount = 1;
+}
+if(typeof sequenceToMatch[i-1] == "number"
+    && sequenceToMatch[i-1] <= numberOfSquares
+    && sequenceToMatch[i-1] > 0){
+    oddOrEven(repeatCount,current);
+    showButtonX(current);
+    const t = setTimeout(() => {hideButtonX(current);
+    }, sequenceSpeed);
+    activeTimeouts.push(t);
+}else{
+    console.log("Something is wrong");
+}
+showButtonsPeriodically();
+```
+When the sequence is still running, the function checks if there is a repeat item in the sequence. If the previous and current item is the same, then the `repeatCount` variable will increment by 1, otherwise it is assigned a 1. After that section, the code checks wherther the value is within the 1-16 range and a number. If it passes that condition then the code sends the current `repeatCount` to the **`oddOrEven(number, square)`** function which can be found [here](#oddorevennumber-buttonid-level-4). It works the same as it does in level 4. It then shows the button and hides it after the current speed in relation to the `roundID` (which is the number of rounds the user has gone through). Lastly, it pushes the timer onto the `activeTimeouts` array.
+
+##### When the sequence has shown all items in array
+```
+else if(i>=(maxInputs+1) && sequenceToMatch){
+    console.log("Showing buttons");
+    resetButtonsIndex();
+    showButtons();
+    shownSequence = true;
+    i=0;
+}
+```
+Once the function has iterated through all items in the `sequenceToMatch` array it resets all the button colours with the **`resetButtonsIndex()`** function and shows all the buttons with the **`showButtons()`** function. Lastly, it sets the boolean variable `shownSequence` which allows for the **`hideButtonX(x)`** function to access the **`pointCheck(square)`** function.
+
+#### **`pointCheck()`**
+```
+function pointCheck(squareX){
+    let curSquare = sequenceToMatch.shift();
+    let curScore = (squareX === curSquare) ? 100 : -50;
+    points+=curScore;
+    updateScoreBoard();
+    playerInputs+=1;
+    if (curScore === -50){
+        if (lives === 1){
+            loseLife();
+            showEndGameModal();
+        }else{
+            loseLife();
+            shownSequence = false;
+            changeBackgroundColor(2);
+            const t = setTimeout(() => {changeBackgroundColor(0);
+                    }, 500);
+            sequenceToMatch = [...copyOfSequence];
+            playerInputs = 0;
+            i=0;
+            hideButtons();
+            showButtonsPeriodically();
+        }
+    }else if (playerInputs === maxInputs){
+        changeBackgroundColor(1);
+        const t = setTimeout(() => {changeBackgroundColor(0);
+                }, 500);
+        playerInputs = 0;
+        maxInputs+=1;
+        roundID+=1;
+        resetButtonsIndex();
+        startMemorySequence();
+
+    }
+
+}
+```
+The logic for this function has changed a bit. Instead of this function catching the amount of right and wrong inputs from the user, it catches any wrong input, indicates to the user that they clicked on the wrong button and plays the sequence one more time. If the user enters all inputs correctly then the screen flashes green and the next sequence is played. The degree of correctness not only affects the score but also the lives the user has left.
+
+##### If the user chooses the wrong button
+```
+if (curScore === -50){
+    if (lives === 1){
+        loseLife();
+        showEndGameModal();
+    }else{
+        loseLife();
+        shownSequence = false;
+        changeBackgroundColor(2);
+        const t = setTimeout(() => {changeBackgroundColor(0);
+                }, 500);
+        sequenceToMatch = [...copyOfSequence];
+        playerInputs = 0;
+        i=0;
+        hideButtons();
+        showButtonsPeriodically();
+    }
+}
+```
+If the user is on their last life and they chose the wrong input then the game will show the **Game Over** modal window which will indicate whether they want to play again, choose a different level or close the modal window.
 ### Features left to implement
 Initially, I wanted to create another game mode that would be able to test the user's reaction time and if I wanted to adapt this game into a long term more fully fleshed project I would consider delving deeper into other game modes that could really test the user's cognitive abilities. An example would be games that test the user's IQ such as the fox, the hen and the worm problem which is more niche game modes that could come up in the initial tests used to test prospective candidates for IT roles. Here's how the game mode works:
 - There are 3 creatures: The fox, the hen and the worm
@@ -792,6 +928,9 @@ Level 3 passed the validator check without issue.
 Level 4 passed the validator check without issue.
 ![level4.html file select](/assets/images/level4.html%20file%20select.png)
 ![level4.html passed](/assets/images/level4.html%20passed.png)
+
+#### Level 5.html
+Level 5 passed the validator check without issue.
 
 #### Coming-soon.html
 The coming soon webpage passed the validator check without issue.

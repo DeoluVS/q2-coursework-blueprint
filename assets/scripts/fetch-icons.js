@@ -13,7 +13,6 @@ async function fetchAndPlaceIcon(url){
             throw new Error(`Response status: ${res.status}`);
         }
         const result = await res.text();
-        console.log(result);
         for(let i=0;i<count; i++){
             document.getElementById(`live${i+1}`).innerHTML = result;
         }
@@ -23,5 +22,7 @@ async function fetchAndPlaceIcon(url){
 
 
 }
+
+
 
 fetchAndPlaceIcon(URL);

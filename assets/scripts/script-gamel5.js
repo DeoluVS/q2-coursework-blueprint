@@ -11,10 +11,10 @@ let lives = 3;
 let roundID = 0;
 let playerInputs = 0;
 let correctInputs = 0;
-let maxInputs = 3;
+let maxInputs = 1;
 let repeatCount = 1;
 let sequencePoints = 0;
-let sequenceSpeed = 2000;
+let sequenceSpeed = 2500;
 const HIGHEST_SCORE_POSSIBLE = (3*100)+(4*100)+(5*100)+(6*100);
 const numberOfSquares = 16;
 //level 1 should have 4 max rounds just to ease the user in
@@ -80,12 +80,13 @@ function showButtons(){
     }
 }
 
+//Every three rounds the timeDelay decreases
 function increaseSpeed(){
     let timeDelay = (roundID % 3 == 0) ? -250 : 0;
     if(sequenceSpeed > 1000){
         sequenceSpeed += timeDelay;
     }
-
+    console.log(`Current round Id is ${roundID} and current speed is ${sequenceSpeed}`);
 }
 
 //This randomly generates the sequence and adds it to the array
@@ -94,8 +95,6 @@ function generateSequence(){
         sequenceToMatch.push(getRandomIntInclusive(1,numberOfSquares));
     }
     copyOfSequence = [...sequenceToMatch];
-    console.log("Copy Of Sequence: ",copyOfSequence);
-    console.log("Sequence To Match: ",sequenceToMatch);
 }
 
 //Reworking the for loop to work by recursion instead
@@ -115,9 +114,204 @@ let i=0;*/
 
 //This starts the sequence and resets all the necessary
 //  arrays and variables.
+
+
+function resetButtonsIndex(){
+    for (let i=0; i<numberOfSquares;i++){
+        document.getElementById(`shapeA${i+1}`).style.backgroundColor =
+         "rgb(0, 0, 255)";
+    }
+}
+
+function resetButtons(){
+    for (let i=0; i<numberOfSquares;i++){
+        document.getElementById(`square-labelA${i+1}`).innerText = 0;
+    }
+}
+
+function showEndGameModal(){
+    document.getElementById("finalScoreL5").textContent = points;
+    document.getElementById("finalPercentScoreL5").textContent
+        = `You completed ${roundID} rounds`;
+    const endModal = new bootstrap.Modal
+    (document.getElementById("endGameModalL5"));
+    endModal.show();
+}
+
+function restartGame(){
+    const modalElement = document.getElementById("endGameModalL5");
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if(modalInstance){
+        modalInstance.hide();
+    }
+
+    //Fully reset all variables
+    sequenceToMatch = [];
+    copyOfSequence = [];
+    activeTimeouts = [];
+    maxInputs = 1;
+    points = 0;
+    lives = 3;
+    i=0;
+    playerInputs = 0;
+    sequenceSpeed = 2500;
+
+    showHearts();
+    updateScoreBoard();
+    shownSequence = false;
+    startMemorySequence();
+    console.log("Sequence to Match Array: ",sequenceToMatch);
+}
+let i = 0;
+//This is the main function that presents the sequence to the user
+function showButtonsPeriodically(){
+    //This function uses recursion to call itself
+    // just like a for loop. Using a for loop or while
+    //loop felt too restrictive so making an iterator
+    //  outside of the function made it less prone to
+    //being reset on each recursive call or iteration.
+    setTimeout(function() {
+        i=i+1;
+        // If the iterator is still less than maxInputs
+        if(i<maxInputs+1 && sequenceToMatch){
+            // Working off of previous iterations of this function it still uses similar logic to
+            // level 4 but the speed of each sequence changes depending on the increaseSpeed()
+            // function.
+            const current = sequenceToMatch[i - 1];
+            const prev = sequenceToMatch[i - 2];
+            // Track consecutive counts
+            if (current === prev) {
+                repeatCount++;
+            } else {
+                repeatCount = 1;
+            }
+            //Simplified to just check if a number came through instead of making
+            // multiple else if statements
+            if(typeof sequenceToMatch[i-1] == "number"
+                && sequenceToMatch[i-1] <= numberOfSquares
+                && sequenceToMatch[i-1] > 0){
+                oddOrEven(repeatCount,current);
+                showButtonX(current);
+                const t = setTimeout(() => {hideButtonX(current);
+                }, sequenceSpeed);
+                activeTimeouts.push(t);
+
+            }else{
+                console.log("Something is wrong");
+            }
+            showButtonsPeriodically();
+        // If the maximum items match the iterator or more then let the user
+        // Enter the sequence they remember
+        }else if(i>=(maxInputs+1) && sequenceToMatch){
+            //After sequenceToMatch has been fully gone through
+            //  all buttons are shown for the user to
+            //enter what they remember
+            console.log("Showing buttons");
+            resetButtonsIndex();
+            showButtons();
+            shownSequence = true;
+            i=0;
+        }
+
+        //There"s a 2 second delay after each recursive call.
+        //  It will change depending on difficulty.
+    },sequenceSpeed);
+}
+
+//This function takes away a heart icon whenever the user picks the wrong button
+function loseLife(){
+    console.log("Lost life function called");
+    document.getElementById(`live${lives}`).style.visibility = "hidden";
+    lives-=1;
+}
+
+//Updates the current score. Attached to the pointScore() function.
+function updateScoreBoard(){
+    document.getElementById("scoreBoardL5").value = points;
+}
+
+function oddOrEven(number, buttonID){
+    let button = document.getElementById(`shapeA${buttonID}`);
+    if(typeof number == "number"){
+        if(number %2 == 0){
+            button.style.backgroundColor = "black";
+        }else{
+            button.style.backgroundColor = "rgb(0, 0, 255)";
+        }
+    }
+}
+
+function showHearts(){
+    for (let i = 0; i<3; i++){
+        document.getElementById(`live${i+1}`).style.visibility = "visible";
+    }
+}
+
+//This is shown after the sequence has done being shown.
+//  It checks if the user enters the right inputs in
+//relation to the sequenceToMatch array.
+function pointCheck(squareX){
+    //Takes the first value at sequenceToMatch[0] removes
+    //  it from the array and stores it in curSquare.
+    //Eventually shift() will empty the array fully.
+    let curSquare = sequenceToMatch.shift();
+    //If curSquare is the same as the first value +100 points else
+    //  -50 points
+    let curScore = (squareX === curSquare) ? 100 : -50;
+    points+=curScore;
+    updateScoreBoard();
+    playerInputs+=1;
+
+    //If they chose wrong enter this if statement
+    if (curScore === -50){
+        //If they chose wrong and on their last life then end the game
+        if (lives === 1){
+            loseLife();
+            showEndGameModal();
+        }else{
+            //If they chose wrong but still has more than 1 life lose 1 life
+            // and remove a heart
+            loseLife();
+            shownSequence = false;
+            //Make sure the pointCheck() function isn't accessible
+            //Flash the screen red then after half a second switch back to white
+            changeBackgroundColor(2);
+            const t = setTimeout(() => {changeBackgroundColor(0);
+                    }, 500);
+            //Deep copy of copyOfSequence array to sequenceToMatch
+            sequenceToMatch = [...copyOfSequence];
+            playerInputs = 0;
+            //Reset iterator
+            i=0;
+            //Hide all the buttons
+            hideButtons();
+            //Start the sequence again
+            showButtonsPeriodically();
+        }
+    // If the user chose all the right buttons
+    }else if (playerInputs === maxInputs){
+        // Flash the screen green and switch back to white after half a second
+        changeBackgroundColor(1);
+        const t = setTimeout(() => {changeBackgroundColor(0);
+                }, 500);
+        playerInputs = 0;
+        //maxInputs+=1 makes the next sequence longer
+        maxInputs+=1;
+        //Increase the roundID
+        roundID+=1;
+        // Reset the buttons colours back to blue
+        resetButtonsIndex();
+        //Start a new sequence
+        startMemorySequence();
+
+    }
+
+}
+
 function startMemorySequence(){
     document.getElementById("startBtnL5").disabled = true;
     sequenceToMatch = [];
+    copyOfSequence = [];
     //This clears all timers that may still be running.
     for (const t of activeTimeouts) clearTimeout(t);
     activeTimeouts = [];
@@ -136,180 +330,8 @@ function startMemorySequence(){
     }
 }
 
-function resetButtonsIndex(){
-    for (let i=0; i<9;i++){
-        document.getElementById(`square-labelA${i+1}`).innerText = i+1;
-        document.getElementById(`shapeA${i+1}`).style.backgroundColor =
-         "rgb(0, 0, 255)";
-    }
-}
-
-function resetButtons(){
-    for (let i=0; i<9;i++){
-        document.getElementById(`square-labelA${i+1}`).innerText = 0;
-    }
-}
-
-function showEndGameModal(){
-    document.getElementById("finalScoreL5").textContent = points;
-    let percent = parseInt((points/HIGHEST_SCORE_POSSIBLE)*100);
-    let percentScore = `${percent}%`;
-    document.getElementById("finalPercentScoreL5").textContent = percentScore;
-    const endModal = new bootstrap.Modal
-    (document.getElementById("endGameModalL5"));
-    endModal.show();
-}
-
-function restartGame(){
-    const modalElement = document.getElementById("endGameModalL5");
-    const modalInstance = bootstrap.Modal.getInstance(modalElement);
-    if(modalInstance){
-        modalInstance.hide();
-    }
-    maxInputs = 3;
-    points = 0;
-    updateScoreBoard();
-    sequencePoints = 0;
-    shownSequence = false;
-    startMemorySequence();
-}
-let i = 0;
-//This is the main function that presents the sequence to the user
-function showButtonsPeriodically(){
-    //This function uses recursion to call itself
-    // just like a for loop. Using a for loop or while
-    //loop felt too restrictive so making an iterator
-    //  outside of the function made it less prone to
-    //being reset on each recursive call or iteration.
-    setTimeout(function() {
-        i=i+1;
-        //Eventually the condition of it being i<5 will
-        //  be more automated to allow for an increase of difficulty
-        //  and more values coming up.
-        if(i<maxInputs+1 && sequenceToMatch){
-            //ChatGPT helped out for the check between the current
-            //  and previous element.
-            //Its a quality of life improvement that allows for a
-            // value to appear on the square for any repeat
-            //squares chosen in the sequence.
-            const current = sequenceToMatch[i - 1];
-            const prev = sequenceToMatch[i - 2];
-            // Track consecutive counts
-            if (current === prev) {
-                repeatCount++;
-            } else {
-                repeatCount = 1;
-            }
-            // Update display number on the square
-            const squareElement = document.getElementById(
-                "square-labelA" + current
-            );
-            if (squareElement) {
-                squareElement.innerText = repeatCount; // show 1, 2, 3, ...
-            }
-            //This will increase to more if statements when there
-            //  are more squares.
-            //To recreate the sequence it iterates through the
-            //  sequenceToMatch function and shows,
-            //the button in relation to i (i-1 since the sequence only
-            //  includes numbers 1-4 but array starts from
-            //0-3).
-
-            if(typeof sequenceToMatch[i-1] == "number" && sequenceToMatch[i-1] <= numberOfSquares){
-                oddOrEven(repeatCount,current);
-                showButtonX(current);
-                const t = setTimeout(() => {hideButtonX(current);
-                }, sequenceSpeed);
-                activeTimeouts.push(t);
-
-            }else{
-                console.log("Something is wrong");
-            }
-            showButtonsPeriodically();
-        }else if(i>=(maxInputs+1) && sequenceToMatch){
-            //After sequenceToMatch has been fully gone through
-            //  all buttons are shown for the user to
-            //enter what they remember
-            console.log("Showing buttons");
-            resetButtonsIndex();
-            showButtons();
-            shownSequence = true;
-            i=0;
-        }
-        //document.getElementById("sequence-order").innerHTML
-        // = sequenceToMatch;
-        //There"s a 2 second delay after each recursive call.
-        //  It will change depending on difficulty.
-    },sequenceSpeed);
-}
-
-function loseLife(){
-    console.log("Lost life function called");
-    document.getElementById(`live${lives}`).style.visibility = "hidden";
-    lives-=1;
-}
-
-function updateScoreBoard(){
-    document.getElementById("scoreBoardL5").value = points;
-}
-
-function oddOrEven(number, buttonID){
-    let button = document.getElementById(`shapeA${buttonID}`);
-    if(typeof number == "number"){
-        if(number %2 == 0){
-            button.style.backgroundColor = "black";
-        }else{
-            button.style.backgroundColor = "rgb(0, 0, 255)";
-        }
-    }
-}
-
-//This is shown after the sequence has done being shown.
-//  It checks if the user enters the right inputs in
-//relation to the sequenceToMatch array.
-function pointCheck(squareX){
-    //Takes the first value at sequenceToMatch[0] removes
-    //  it from the array and stores it in curSquare.
-    //Eventually shift() will empty the array fully.
-    let curSquare = sequenceToMatch.shift();
-    //If curSquare is the same as the first value
-    let curScore = (squareX === curSquare) ? 100 : -50;
-    points+=curScore;
-    updateScoreBoard();
-    playerInputs+=1;
-    if (curScore === -50){
-        if (lives === 1){
-
-        }
-    }else if (){
-
-    }
-    if (curScore === -50 && lives > 1){
-        loseLife();
-        changeBackgroundColor(2);
-        const t = setTimeout(() => {changeBackgroundColor(0);
-                }, 500);
-        sequenceToMatch = [...copyOfSequence];
-        playerInputs = 0;
-        i=0;
-        hideButtons();
-        showButtonsPeriodically();
-    }else if(curScore === -50 && lives <=1){
-        loseLife();
-        showEndGameModal();
-    }else if(playerInputs === maxInputs){
-        changeBackgroundColor(1);
-        const t = setTimeout(() => {changeBackgroundColor(0);
-                }, 500);
-        playerInputs = 0;
-        resetButtons();
-        startMemorySequence();
-        maxInputs+=1;
-    }
-    console.log("lives: ",lives);
-}
-
 function changeBackgroundColor(levelOfAccuracy){
+    // Simplified since you can only be right or wrong and return to normal
     if(typeof levelOfAccuracy == "number"){
         if(levelOfAccuracy === 0){
             document.body.style.backgroundColor = "white";
