@@ -97,6 +97,9 @@ This is the hardest level altogether. It starts off slow but gradually increases
 #### How to Play
 This screen just has a basic explanation of all the levels designed above in a digestible form.
 
+#### Structure
+![](/assets/wireframes/square%20diagram%20q2.drawio.png)
+
 ### Must Haves
 - Scoreboard for the current score
 - How to play screen
